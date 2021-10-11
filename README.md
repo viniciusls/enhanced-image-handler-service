@@ -1,7 +1,7 @@
 # nodejs-aws-lambda-s3-thumbnail
-![Travis (.com) branch](https://img.shields.io/travis/com/viniciusls/nodejs-aws-lambda-s3-thumbnail/main)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/viniciusls/nodejs-aws-lambda-s3-thumbnail)
-![GitHub](https://img.shields.io/github/license/viniciusls/nodejs-aws-lambda-s3-thumbnail)
+![Travis (.com) branch](https://img.shields.io/travis/com/viniciusls/enhanced-image-handler-service/main)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/viniciusls/enhanced-image-handler-service)
+![GitHub](https://img.shields.io/github/license/viniciusls/enhanced-image-handler-service)
 
 Simple AWS Lambda to generate thumbnails to AWS S3 from images uploaded to AWS S3 using Terraform
 
