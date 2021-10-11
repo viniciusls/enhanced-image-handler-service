@@ -1,0 +1,30 @@
+{
+  "name": "nodejs-aws-lambda-s3-thumbnail",
+  "version": "1.0.0",
+  "description": "Simple AWS Lambda to generate thumbnails to AWS S3 from images uploaded to AWS S3 using Terraform",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viniciusls/nodejs-aws-lambda-s3-thumbnail.git"
+  },
+  "keywords": [
+    "aws",
+    "lambda",
+    "s3",
+    "terraform",
+    "thumbnail"
+  ],
+  "author": "Vinicius Silva <vinicius.ls@live.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/viniciusls/nodejs-aws-lambda-s3-thumbnail/issues"
+  },
+  "homepage": "https://github.com/viniciusls/nodejs-aws-lambda-s3-thumbnail#readme",
+  "dependencies": {
+    "aws-sdk": "^2.973.0",
+    "sharp": "^0.29.1"
+  }
+}
