@@ -1,5 +1,5 @@
 resource "aws_api_gateway_rest_api" "api_gateway" {
-  name               = "${var.environment}-s3-proxy-nodejs-lambda"
+  name               = "${var.environment}-s3-proxy-lambda"
   description        = "${var.environment} s3 proxy"
   binary_media_types = var.supported_binary_media_types
 }
@@ -24,7 +24,7 @@ resource "aws_api_gateway_deployment" "s3_proxy_api_deployment" {
 }
 
 resource "aws_api_gateway_usage_plan" "s3_proxy_usage_plan" {
-  name        = "s3_proxy_usage_plan-nodejs-lambda-${var.environment}"
+  name        = "s3_proxy_usage_plan-lambda-${var.environment}"
   description = "usage plan for s3 proxy"
 
   api_stages {
@@ -39,7 +39,7 @@ resource "aws_api_gateway_usage_plan" "s3_proxy_usage_plan" {
 }
 
 resource "aws_api_gateway_api_key" "s3_api_key" {
-  name = "s3-proxy-nodejs-lambda-apikey-${var.environment}"
+  name = "s3-proxy-lambda-apikey-${var.environment}"
 }
 
 resource "aws_api_gateway_usage_plan_key" "s3_proxy_usage_plan-key" {

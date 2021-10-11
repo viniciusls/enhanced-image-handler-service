@@ -6,7 +6,7 @@
 terraform {
   backend "s3" {
     bucket = "viniciusls-terraform"
-    key    = "nodejs-aws-lambda-s3-thumbnail/terraform.tfstate"
+    key    = "enhanced-image-handler-service/terraform.tfstate"
     region = "sa-east-1"
   }
 }

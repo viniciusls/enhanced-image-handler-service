@@ -9,6 +9,10 @@ variable "environment" {
   default = "dev"
 }
 
+variable "s3_bucket_images" {
+  default = "enhanced-image-handler-service"
+}
+
 //----------------------------------------------------------------------
 // API Gateway Variables
 //----------------------------------------------------------------------

@@ -1,9 +1,5 @@
-variable "s3_bucket_images" {
-  default = "nodejs-aws-lambda-s3"
-}
-
 resource "aws_iam_role" "s3_proxy_role" {
-  name               = "${var.environment}-s3-proxy-role-nodejs-lambda"
+  name               = "${var.environment}-s3-proxy-role-lambda"
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.s3_proxy_policy.json
 }
@@ -52,7 +48,7 @@ resource "aws_s3_bucket" "file_upload_bucket" {
 }
 
 resource "aws_iam_policy" "s3_file_upload_policy" {
-  name        = "${var.environment}-nodejs-lambda-s3-file-upload-policy"
+  name        = "${var.environment}-lambda-s3-file-upload-policy"
   path        = "/"
   description = "${var.environment} s3 file upload policy"
 
