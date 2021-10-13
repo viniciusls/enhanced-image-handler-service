@@ -10,7 +10,11 @@ variable "environment" {
 }
 
 variable "s3_bucket_images" {
-  default = "enhanced-image-handler-service"
+  default = "enhanced-image-handler-service-bucket"
+}
+
+variable "sns_topic_images" {
+  default = "enhanced-image-handler-service-topic"
 }
 
 //----------------------------------------------------------------------
