@@ -10,7 +10,6 @@ resource "aws_api_gateway_method" "item_put_method" {
     "method.request.header.Content-Type"        = false
     "method.request.header.x-amz-meta-fileinfo" = false
 
-    "method.request.path.bucket" = true
     "method.request.path.folder" = true
     "method.request.path.item"   = true
   }
@@ -35,7 +34,6 @@ resource "aws_api_gateway_method" "item_get_method" {
   api_key_required = true
 
   request_parameters = {
-    "method.request.path.bucket" = true
     "method.request.path.folder" = true
     "method.request.path.item"   = true
   }

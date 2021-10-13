@@ -10,7 +10,7 @@ resource "aws_api_gateway_integration" "item_put_method-api_proxy_integration" {
   type                    = "AWS"
   integration_http_method = "PUT"
   credentials             = module.s3.proxy_role_arn
-  uri                     = "arn:aws:apigateway:${var.region}:s3:path/{bucket}/{folder}/{item}"
+  uri                     = "arn:aws:apigateway:${var.region}:s3:path/${var.s3_bucket_name}/{folder}/{item}"
 
   request_parameters = {
     "integration.request.header.x-amz-meta-fileinfo" = "method.request.header.x-amz-meta-fileinfo"
@@ -19,7 +19,6 @@ resource "aws_api_gateway_integration" "item_put_method-api_proxy_integration" {
 
     "integration.request.path.item"   = "method.request.path.item"
     "integration.request.path.folder" = "method.request.path.folder"
-    "integration.request.path.bucket" = "method.request.path.bucket"
   }
 }
 
@@ -31,12 +30,11 @@ resource "aws_api_gateway_integration" "item_get_method-api_proxy_integration" {
   type                    = "AWS"
   integration_http_method = "GET"
   credentials             = module.s3.proxy_role_arn
-  uri                     = "arn:aws:apigateway:${var.region}:s3:path/{bucket}/{folder}/{item}"
+  uri                     = "arn:aws:apigateway:${var.region}:s3:path/${var.s3_bucket_name}/{folder}/{item}"
 
   request_parameters = {
     "integration.request.path.item"   = "method.request.path.item"
     "integration.request.path.folder" = "method.request.path.folder"
-    "integration.request.path.bucket" = "method.request.path.bucket"
   }
 }
 

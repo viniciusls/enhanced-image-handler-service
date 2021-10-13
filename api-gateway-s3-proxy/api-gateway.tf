@@ -29,12 +29,7 @@ resource "aws_api_gateway_usage_plan" "s3_proxy_usage_plan" {
 
   api_stages {
     api_id = aws_api_gateway_rest_api.api_gateway.id
-    stage  = aws_api_gateway_stage.dev.stage_name
-  }
-
-  api_stages {
-    api_id = aws_api_gateway_rest_api.api_gateway.id
-    stage  = aws_api_gateway_stage.prod.stage_name
+    stage  = aws_api_gateway_stage.api_stage.stage_name
   }
 }
 

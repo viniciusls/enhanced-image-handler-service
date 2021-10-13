@@ -6,8 +6,13 @@ variable "region" {
 }
 
 variable "environment" {
-  default = "dev"
+  default = "prod"
 }
+
+variable "s3_bucket_name" {
+  default = "enhanced-image-handler-service-bucket"
+}
+
 
 //----------------------------------------------------------------------
 // API Gateway Variables
