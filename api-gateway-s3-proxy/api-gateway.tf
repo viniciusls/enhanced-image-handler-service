@@ -1,3 +1,7 @@
+module "s3" {
+  source = "../s3"
+}
+
 resource "aws_api_gateway_rest_api" "api_gateway" {
   name               = "${var.environment}-s3-proxy-lambda"
   description        = "${var.environment} s3 proxy"
@@ -41,4 +45,31 @@ resource "aws_api_gateway_usage_plan_key" "s3_proxy_usage_plan-key" {
   key_id        = aws_api_gateway_api_key.s3_api_key.id
   key_type      = "API_KEY"
   usage_plan_id = aws_api_gateway_usage_plan.s3_proxy_usage_plan.id
+}
+
+resource "aws_iam_role" "proxy_role" {
+  name               = "s3-proxy-role-lambda"
+  path               = "/"
+  assume_role_policy = data.aws_iam_policy_document.proxy_policy.json
+}
+
+data "aws_iam_policy_document" "proxy_policy" {
+  statement {
+    actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["apigateway.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "proxy_role_file_upload_attachment" {
+  role       = aws_iam_role.proxy_role.name
+  policy_arn = module.s3.file_upload_policy_arn
+}
+
+resource "aws_iam_role_policy_attachment" "proxy_role_api_gateway_attachment" {
+  role       = aws_iam_role.proxy_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonAPIGatewayInvokeFullAccess"
 }

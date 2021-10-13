@@ -39,10 +39,6 @@ module "s3-notifications" {
   source = "./s3-notifications"
 }
 
-module "policies" {
-  source = "./policies"
-}
-
 module "api-gateway-s3-proxy" {
   source = "./api-gateway-s3-proxy"
 }
