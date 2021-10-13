@@ -14,3 +14,35 @@ terraform {
 provider "aws" {
   region = var.region
 }
+
+module "sns" {
+  source = "./sns"
+}
+
+module "s3" {
+  source = "./s3"
+}
+
+module "analyzer_lambda" {
+  source = "./analyzer"
+}
+
+module "handler_lambda" {
+  source = "./handler"
+}
+
+module "thumbnailer_lambda" {
+  source = "./thumbnailer"
+}
+
+module "s3-notifications" {
+  source = "./s3-notifications"
+}
+
+module "policies" {
+  source = "./policies"
+}
+
+module "api-gateway-s3-proxy" {
+  source = "./api-gateway-s3-proxy"
+}

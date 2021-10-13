@@ -1,3 +1,7 @@
+module "policies" {
+  source = "../policies"
+}
+
 module "s3" {
   source = "../s3"
 }
@@ -38,8 +42,7 @@ resource "aws_iam_role" "iam_for_lambda" {
   })
 
   managed_policy_arns = [
-    module.s3.file_upload_policy_arn,
-    module.sns.images_topic_iam_policy_arn,
+    module.policies.topic_iam_policy_arn,
     data.aws_iam_policy.AWSLambdaBasicExecutionRole.arn
   ]
 }
@@ -71,3 +74,22 @@ resource "aws_lambda_function" "handler_lambda" {
     }
   }
 }
+
+resource "aws_iam_policy" "sns_iam_topic_policy" {
+  name = "sns_iam_topic_policy"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "sns:Publish"
+        ]
+        Effect = "Allow"
+        Resource = aws_lambda_function.handler_lambda.arn
+      },
+    ]
+  })
+}
+
+
