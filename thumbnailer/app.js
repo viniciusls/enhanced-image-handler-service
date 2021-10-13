@@ -5,7 +5,6 @@ const sharp = require('sharp');
 
 // get reference to S3 client
 const s3 = new AWS.S3();
-const sns = new AWS.SNS({apiVersion: '2010-03-31'});
 
 exports.handler = async (event, context, callback) => {
   try {
@@ -24,10 +23,6 @@ exports.handler = async (event, context, callback) => {
     await publishThumbnailToS3(dstBucket, dstKey, bufferThumbnail);
 
     console.log(`Successfully resized ${srcBucket}/${srcKey} and uploaded to ${dstBucket}/${dstKey}`);
-
-    const presignedThumbnailGETURL = await generatePreSignedURL(dstBucket, dstKey);
-
-    await publishToSNSTopic(presignedThumbnailGETURL);
   } catch (error) {
     console.log(error);
     return false;
@@ -77,36 +72,4 @@ const publishThumbnailToS3 = async (dstBucket, dstKey, bufferThumbnail) => {
 
   const putResult = await s3.putObject(destParams).promise();
   console.log(putResult);
-}
-
-const generatePreSignedURL = async (thumbnailBucket, thumbnailKey) => {
-  console.log('Generating Pre-Signed URL');
-  const presignedGETURL = await s3.getSignedUrlPromise('getObject', {
-    Bucket: thumbnailBucket,
-    Key: thumbnailKey, //filename
-    Expires: 86400 //time to expire in seconds
-  });
-  console.log(`Generated Pre-Signed URL: ${presignedGETURL}`);
-
-  return presignedGETURL;
-}
-
-const publishToSNSTopic = async (presignedThumbnailGETURL) => {
-  const snsPublishParams = {
-    Message: `
-  Hello user,
-  
-  Here's the thumbnail for the image you've sent us through S3: ${presignedThumbnailGETURL}.
-  
-  Reminder: This URL is valid only for 24 hours, however you can always access the file on AWS Console.
-  
-  Thanks,
-  
-  Vinicius Silva
-      `,
-    TopicArn: process.env.SNS_THUMBNAILS_TOPIC_ARN
-  };
-
-  const publishResult = await sns.publish(snsPublishParams).promise();
-  console.log(publishResult);
 }
