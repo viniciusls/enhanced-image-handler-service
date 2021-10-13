@@ -1,20 +1,20 @@
+module "s3" {
+  source = "../s3"
+}
+
+module "sns" {
+  source = "../sns"
+}
+
 data "archive_file" "lambda_zip" {
   type = "zip"
   source_dir = path.module
-  output_path = "aws_lambda_s3_thumbnail.zip"
+  output_path = "handler_lambda.zip"
   excludes = [
-    "aws_lambda_s3_thumbnail.zip",
-    ".git",
-    ".gitignore",
-    ".idea",
-    ".terraform",
-    ".terraform.lock.hcl",
-    "terraform.tfstate",
-    "terraform.tfstate.backup",
-    ".terraform.tfstate.lock.info",
-    "lambda.tf",
-    "LICENSE",
-    "README.md",
+    "handler_lambda.zip",
+    "main.tf",
+    "outputs.tf",
+    "variables.tf",
     "yarn.lock"
   ]
 }
@@ -38,9 +38,9 @@ resource "aws_iam_role" "iam_for_lambda" {
   })
 
   managed_policy_arns = [
-    aws_iam_policy.s3_file_upload_policy.arn,
-    data.aws_iam_policy.AWSLambdaBasicExecutionRole.arn,
-    aws_iam_policy.sns_iam_topic_policy.arn
+    module.s3.file_upload_policy_arn,
+    module.sns.images_topic_iam_policy_arn,
+    data.aws_iam_policy.AWSLambdaBasicExecutionRole.arn
   ]
 }
 
@@ -51,14 +51,14 @@ data "aws_iam_policy" "AWSLambdaBasicExecutionRole" {
 resource "aws_lambda_permission" "allow_bucket" {
   statement_id = "AllowExecutionFromS3Bucket"
   action = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.aws_lambda_s3_thumbnail.arn
+  function_name = aws_lambda_function.handler_lambda.arn
   principal = "s3.amazonaws.com"
-  source_arn = aws_s3_bucket.file_upload_bucket.arn
+  source_arn = module.s3.file_upload_bucket_arn
 }
 
-resource "aws_lambda_function" "aws_lambda_s3_thumbnail" {
-  filename = "aws_lambda_s3_thumbnail.zip"
-  function_name = "aws_lambda_s3_thumbnail"
+resource "aws_lambda_function" "handler_lambda" {
+  filename = "handler_lambda.zip"
+  function_name = "handler_lambda"
   role = aws_iam_role.iam_for_lambda.arn
   handler = "app.handler"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
@@ -67,7 +67,7 @@ resource "aws_lambda_function" "aws_lambda_s3_thumbnail" {
   memory_size = 1024
   environment {
     variables = {
-      SNS_THUMBNAILS_TOPIC_ARN = aws_sns_topic.thumbnails.arn
+      SNS_IMAGES_TOPIC_ARN = module.sns.images_topic_arn
     }
   }
 }

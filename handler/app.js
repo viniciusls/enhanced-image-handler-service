@@ -14,7 +14,7 @@ exports.handler = async (event, context, callback) => {
 
     await publishToSNSTopic(srcBucket, srcKey);
 
-    console.log(`Successfully published ${srcBucket}/${srcKey} info to ${process.env.SNS_THUMBNAILS_TOPIC_ARN}`);
+    console.log(`Successfully published ${srcBucket}/${srcKey} info to ${process.env.SNS_IMAGES_TOPIC_ARN}`);
   } catch (error) {
     console.log(error);
     return false;
@@ -35,7 +35,7 @@ const publishToSNSTopic = async (bucketName, objectKey) => {
       sqs: messageBody
     },
     MessageStructure: 'json',
-    TopicArn: process.env.SNS_THUMBNAILS_TOPIC_ARN
+    TopicArn: process.env.SNS_IMAGES_TOPIC_ARN
   };
 
   const publishResult = await sns.publish(snsPublishParams).promise();
