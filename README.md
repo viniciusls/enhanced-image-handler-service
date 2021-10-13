@@ -1,4 +1,4 @@
-# nodejs-aws-lambda-s3-thumbnail
+# enhanced-image-handler-service
 ![Travis (.com) branch](https://img.shields.io/travis/com/viniciusls/enhanced-image-handler-service/main)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/viniciusls/enhanced-image-handler-service)
 ![GitHub](https://img.shields.io/github/license/viniciusls/enhanced-image-handler-service)
