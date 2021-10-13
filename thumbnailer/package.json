@@ -1,5 +1,5 @@
 {
-  "name": "nodejs-aws-lambda-s3-thumbnail",
+  "name": "enhanced-image-handler-service",
   "version": "1.0.0",
   "description": "Simple AWS Lambda to generate thumbnails to AWS S3 from images uploaded to AWS S3 using Terraform",
   "main": "app.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/viniciusls/nodejs-aws-lambda-s3-thumbnail.git"
+    "url": "git+https://github.com/viniciusls/enhanced-image-handler-service.git"
   },
   "keywords": [
     "aws",
@@ -20,9 +20,9 @@
   "author": "Vinicius Silva <vinicius.ls@live.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/viniciusls/nodejs-aws-lambda-s3-thumbnail/issues"
+    "url": "https://github.com/viniciusls/enhanced-image-handler-service/issues"
   },
-  "homepage": "https://github.com/viniciusls/nodejs-aws-lambda-s3-thumbnail#readme",
+  "homepage": "https://github.com/viniciusls/enhanced-image-handler-service#readme",
   "dependencies": {
     "aws-sdk": "^2.973.0",
     "sharp": "^0.29.1"
