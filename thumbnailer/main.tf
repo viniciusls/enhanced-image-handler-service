@@ -34,6 +34,7 @@ resource "aws_iam_role" "iam_for_lambda" {
   })
 
   managed_policy_arns = [
+    module.s3.file_read_policy_arn,
     module.s3.file_upload_policy_arn,
     data.aws_iam_policy.AWSLambdaBasicExecutionRole.arn,
   ]
