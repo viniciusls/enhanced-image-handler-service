@@ -20,10 +20,10 @@
     "delegates" "^1.0.0"
     "readable-stream" "^2.0.6"
 
-"aws-sdk@^2.973.0":
-  "integrity" "sha512-IhVDIrI+7x+643S7HKDZ8bA8rTKfkCLSlxUZcP9W39PD5y04Hwamxou/kNTtXzdg1yyriq3d5tCVu6w5Z5QFDQ=="
-  "resolved" "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.973.0.tgz"
-  "version" "2.973.0"
+"aws-sdk@^2.1006.0":
+  "integrity" "sha512-lwXAy706+1HVQqMnHaahdeBZZbdu6TWrtTY0ydeG0qanwldTFNMLczwnETTZWYsqNAU+wjl1VzmFdMO4gePLNQ=="
+  "resolved" "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.1006.0.tgz"
+  "version" "2.1006.0"
   dependencies:
     "buffer" "4.9.2"
     "events" "1.1.1"
