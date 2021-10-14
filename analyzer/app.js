@@ -34,7 +34,7 @@ const getObject = async (srcBucket, srcKey) => {
 
   // Check that the image type is supported
   const imageType = typeMatch[1].toLowerCase();
-  if (imageType !== "jpg" && imageType !== "png") {
+  if (imageType !== "jpeg" && imageType !== "jpg" && imageType !== "png") {
     console.log(`Unsupported image type: ${imageType}`);
     return;
   }
