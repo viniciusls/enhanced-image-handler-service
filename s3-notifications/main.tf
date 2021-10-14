@@ -21,4 +21,13 @@ resource "aws_s3_bucket_notification" "bucket_notification_png" {
     filter_prefix = "images/"
     filter_suffix = ".jpg"
   }
+
+  lambda_function {
+    lambda_function_arn = var.lambda_handler_arn
+    events = [
+      "s3:ObjectCreated:*"
+    ]
+    filter_prefix = "images/"
+    filter_suffix = ".jpeg"
+  }
 }
