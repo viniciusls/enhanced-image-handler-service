@@ -9,10 +9,11 @@ exports.handler = async (event, context, callback) => {
   try {
     // Read options from the event parameter.
     console.log("Reading options from event:\n", util.inspect(event, {depth: 5}));
-    const srcBucket = event.Records[0].body.BucketName;
+    const body = JSON.parse(event.Records[0].body);
+    const srcBucket = body.BucketName;
 
     // Object key may have spaces or unicode non-ASCII characters.
-    const srcKey = decodeURIComponent(event.Records[0].body.ObjectKey.replace(/\+/g, " "));
+    const srcKey = decodeURIComponent(body.ObjectKey.replace(/\+/g, " "));
 
     const origImage = await getObject(srcBucket, srcKey);
 
