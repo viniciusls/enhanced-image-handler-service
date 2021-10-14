@@ -140,3 +140,6 @@ dist
 
 # Zip package
 *.zip
+
+# DS Store
+.DS_Store
