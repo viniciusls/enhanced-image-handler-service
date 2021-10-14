@@ -1,6 +1,4 @@
-module "s3" {
-  source = "../s3"
-}
+variable "s3_file_upload_policy_arn" {}
 
 resource "aws_api_gateway_rest_api" "api_gateway" {
   name               = "${var.environment}-s3-proxy-lambda"
@@ -66,7 +64,7 @@ data "aws_iam_policy_document" "proxy_policy" {
 
 resource "aws_iam_role_policy_attachment" "proxy_role_file_upload_attachment" {
   role       = aws_iam_role.proxy_role.name
-  policy_arn = module.s3.file_upload_policy_arn
+  policy_arn = var.s3_file_upload_policy_arn
 }
 
 resource "aws_iam_role_policy_attachment" "proxy_role_api_gateway_attachment" {

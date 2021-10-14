@@ -19,26 +19,49 @@ module "sns" {
   source = "./sns"
 }
 
+module "sqs" {
+  source = "./sqs"
+
+  sns_images_topic_arn = module.sns.images_topic_arn
+}
+
 module "s3" {
   source = "./s3"
 }
 
 module "analyzer_lambda" {
   source = "./analyzer"
+
+  s3_file_read_policy_arn = module.s3.file_read_policy_arn
+  sns_results_topic_iam_policy_arn = module.sns.results_topic_iam_policy_arn
+  sqs_analyzer_queue_arn = module.sqs.analyzer_queue_arn
 }
 
 module "handler_lambda" {
   source = "./handler"
+
+  s3_file_upload_bucket_arn = module.s3.file_upload_bucket_arn
+  sns_images_topic_iam_policy_arn = module.sns.images_topic_iam_policy_arn
+  sns_images_topic_arn = module.sns.images_topic_arn
 }
 
 module "thumbnailer_lambda" {
   source = "./thumbnailer"
+
+  s3_file_read_policy_arn = module.s3.file_read_policy_arn
+  s3_file_upload_policy_arn = module.s3.file_upload_policy_arn
+  sqs_thumbnailer_queue_arn = module.sqs.thumbnailer_queue_arn
 }
 
 module "s3-notifications" {
   source = "./s3-notifications"
+
+  s3_file_upload_bucket_id = module.s3.file_upload_bucket_id
+  lambda_handler_arn = module.handler_lambda.lambda_arn
 }
 
 module "api-gateway-s3-proxy" {
   source = "./api-gateway-s3-proxy"
+
+  s3_file_upload_policy_arn = module.s3.file_upload_policy_arn
 }

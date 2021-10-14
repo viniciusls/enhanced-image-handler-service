@@ -1,14 +1,6 @@
-module "s3" {
-  source = "../s3"
-}
-
-module "sns" {
-  source = "../sns"
-}
-
-module "sqs" {
-  source = "../sqs"
-}
+variable "s3_file_read_policy_arn" {}
+variable "sns_results_topic_iam_policy_arn" {}
+variable "sqs_analyzer_queue_arn" {}
 
 data "archive_file" "lambda_zip" {
   type = "zip"
@@ -23,7 +15,7 @@ data "archive_file" "lambda_zip" {
   ]
 }
 
-resource "aws_iam_role" "iam_for_lambda" {
+resource "aws_iam_role" "iam_for_analyzer_lambda" {
   name = "iam_for_analyzer_lambda"
 
   assume_role_policy = jsonencode({
@@ -42,8 +34,8 @@ resource "aws_iam_role" "iam_for_lambda" {
   })
 
   managed_policy_arns = [
-    module.s3.file_read_policy_arn,
-    module.sns.results_topic_iam_policy_arn,
+    var.s3_file_read_policy_arn,
+    var.sns_results_topic_iam_policy_arn,
     data.aws_iam_policy.AWSLambdaBasicExecutionRole.arn,
     data.aws_iam_policy.AWSLambdaSQSQueueExecutionRole.arn,
   ]
@@ -60,7 +52,7 @@ data "aws_iam_policy" "AWSLambdaSQSQueueExecutionRole" {
 resource "aws_lambda_function" "analyzer_lambda" {
   filename = "./analyzer/analyzer_lambda.zip"
   function_name = "analyzer_lambda"
-  role = aws_iam_role.iam_for_lambda.arn
+  role = aws_iam_role.iam_for_analyzer_lambda.arn
   handler = "app.handler"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
   runtime = "nodejs14.x"
@@ -69,6 +61,6 @@ resource "aws_lambda_function" "analyzer_lambda" {
 }
 
 resource "aws_lambda_event_source_mapping" "event_source_mapping" {
-  event_source_arn = module.sqs.analyzer_queue_arn
+  event_source_arn = var.sqs_analyzer_queue_arn
   function_name    = aws_lambda_function.analyzer_lambda.arn
 }

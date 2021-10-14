@@ -1,16 +1,11 @@
-module "handler_lambda" {
-  source = "../handler"
-}
-
-module "s3" {
-  source = "../s3"
-}
+variable "s3_file_upload_bucket_id" {}
+variable "lambda_handler_arn" {}
 
 resource "aws_s3_bucket_notification" "bucket_notification_png" {
-  bucket = module.s3.file_upload_bucket_id
+  bucket = var.s3_file_upload_bucket_id
 
   lambda_function {
-    lambda_function_arn = module.handler_lambda.lambda_arn
+    lambda_function_arn = var.lambda_handler_arn
     events = [
       "s3:ObjectCreated:*"
     ]
@@ -19,7 +14,7 @@ resource "aws_s3_bucket_notification" "bucket_notification_png" {
   }
 
   lambda_function {
-    lambda_function_arn = module.handler_lambda.lambda_arn
+    lambda_function_arn = var.lambda_handler_arn
     events = [
       "s3:ObjectCreated:*"
     ]

@@ -1,15 +1,15 @@
-module "sns" {
-  source = "../sns"
-}
+variable "sns_images_topic_arn" {}
 
 resource "aws_sqs_queue" "analyzer_queue" {
   name = var.sqs_queue_analyzer
+  message_retention_seconds = 86400
+  visibility_timeout_seconds = 60
 }
 
 resource "aws_sns_topic_subscription" "images_to_analyzer_subscription" {
   protocol             = "sqs"
   raw_message_delivery = true
-  topic_arn            = module.sns.images_topic_arn
+  topic_arn            = var.sns_images_topic_arn
   endpoint             = aws_sqs_queue.analyzer_queue.arn
 }
 
@@ -30,7 +30,7 @@ resource "aws_sqs_queue_policy" "sqs_analyzer_queue_policy" {
         Resource = aws_sqs_queue.analyzer_queue.arn
         Condition = {
           ArnEquals: {
-            "aws:SourceArn": module.sns.images_topic_arn
+            "aws:SourceArn": var.sns_images_topic_arn
           }
         }
       },
@@ -40,12 +40,14 @@ resource "aws_sqs_queue_policy" "sqs_analyzer_queue_policy" {
 
 resource "aws_sqs_queue" "thumbnailer_queue" {
   name = var.sqs_queue_thumbnailer
+  message_retention_seconds = 86400
+  visibility_timeout_seconds = 60
 }
 
 resource "aws_sns_topic_subscription" "images_to_thumbailer_subscription" {
   protocol             = "sqs"
   raw_message_delivery = true
-  topic_arn            = module.sns.images_topic_arn
+  topic_arn            = var.sns_images_topic_arn
   endpoint             = aws_sqs_queue.thumbnailer_queue.arn
 }
 
@@ -66,7 +68,7 @@ resource "aws_sqs_queue_policy" "sqs_thumbnailer_queue_policy" {
         Resource = aws_sqs_queue.thumbnailer_queue.arn
         Condition = {
           ArnEquals: {
-            "aws:SourceArn": module.sns.images_topic_arn
+            "aws:SourceArn": var.sns_images_topic_arn
           }
         }
       },

@@ -8,7 +8,7 @@ resource "aws_s3_bucket" "file_upload_bucket" {
 }
 
 resource "aws_iam_policy" "file_upload_policy" {
-  name        = "lambda-s3-file-upload-policy"
+  name        = "enhanced-lambda-s3-file-upload-policy"
   path        = "/"
   description = "s3 file upload policy"
 
@@ -27,7 +27,7 @@ resource "aws_iam_policy" "file_upload_policy" {
 }
 
 resource "aws_iam_policy" "file_read_policy" {
-  name        = "lambda-s3-file-upload-policy"
+  name        = "enhanced-lambda-s3-file-read-policy"
   path        = "/"
   description = "s3 file upload policy"
 

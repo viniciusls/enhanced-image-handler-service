@@ -1,10 +1,6 @@
-module "s3" {
-  source = "../s3"
-}
-
-module "sns" {
-  source = "../sns"
-}
+variable "s3_file_upload_bucket_arn" {}
+variable "sns_images_topic_iam_policy_arn" {}
+variable "sns_images_topic_arn" {}
 
 data "archive_file" "lambda_zip" {
   type = "zip"
@@ -19,7 +15,7 @@ data "archive_file" "lambda_zip" {
   ]
 }
 
-resource "aws_iam_role" "iam_for_lambda" {
+resource "aws_iam_role" "iam_for_handler_lambda" {
   name = "iam_for_handler_lambda"
 
   assume_role_policy = jsonencode({
@@ -38,7 +34,7 @@ resource "aws_iam_role" "iam_for_lambda" {
   })
 
   managed_policy_arns = [
-    module.sns.images_topic_iam_policy_arn,
+    var.sns_images_topic_iam_policy_arn,
     data.aws_iam_policy.AWSLambdaBasicExecutionRole.arn
   ]
 }
@@ -52,13 +48,13 @@ resource "aws_lambda_permission" "allow_bucket" {
   action = "lambda:InvokeFunction"
   function_name = aws_lambda_function.handler_lambda.arn
   principal = "s3.amazonaws.com"
-  source_arn = module.s3.file_upload_bucket_arn
+  source_arn = var.s3_file_upload_bucket_arn
 }
 
 resource "aws_lambda_function" "handler_lambda" {
   filename = "./handler/handler_lambda.zip"
   function_name = "handler_lambda"
-  role = aws_iam_role.iam_for_lambda.arn
+  role = aws_iam_role.iam_for_handler_lambda.arn
   handler = "app.handler"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
   runtime = "nodejs14.x"
@@ -66,7 +62,7 @@ resource "aws_lambda_function" "handler_lambda" {
   memory_size = 1024
   environment {
     variables = {
-      SNS_IMAGES_TOPIC_ARN = module.sns.images_topic_arn
+      SNS_IMAGES_TOPIC_ARN = var.sns_images_topic_arn
     }
   }
 }
