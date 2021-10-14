@@ -22,18 +22,18 @@ exports.handler = async (event, context, callback) => {
 };
 
 const publishToSNSTopic = async (bucketName, objectKey) => {
-  const messageBody = {
+  const messageBody = JSON.stringify({
     BucketName: bucketName,
     ObjectKey: objectKey,
     ObjectName: objectKey.split('/').pop(),
     ObjectExtension: objectKey.split('.').pop()
-  };
+  });
 
   const snsPublishParams = {
-    Message: JSON.stringify({
+    Message: {
       default: messageBody,
       sqs: messageBody
-    }),
+    },
     MessageStructure: 'json',
     TopicArn: process.env.SNS_IMAGES_TOPIC_ARN
   };
