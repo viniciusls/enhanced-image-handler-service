@@ -5,7 +5,7 @@ module "s3" {
 data "archive_file" "lambda_zip" {
   type = "zip"
   source_dir = path.module
-  output_path = "thumbnailer_lambda.zip"
+  output_path = "./thumbnailer/thumbnailer_lambda.zip"
   excludes = [
     "thumbnailer_lambda.zip",
     "main.tf",
@@ -45,7 +45,7 @@ data "aws_iam_policy" "AWSLambdaBasicExecutionRole" {
 }
 
 resource "aws_lambda_function" "thumbnailer_lambda" {
-  filename = "thumbnailer_lambda.zip"
+  filename = "./thumbnailer/thumbnailer_lambda.zip"
   function_name = "thumbnailer_lambda"
   role = aws_iam_role.iam_for_lambda.arn
   handler = "app.handler"

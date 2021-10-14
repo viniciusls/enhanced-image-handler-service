@@ -13,7 +13,7 @@ module "sns" {
 data "archive_file" "lambda_zip" {
   type = "zip"
   source_dir = path.module
-  output_path = "handler_lambda.zip"
+  output_path = "./handler/handler_lambda.zip"
   excludes = [
     "handler_lambda.zip",
     "main.tf",
@@ -60,7 +60,7 @@ resource "aws_lambda_permission" "allow_bucket" {
 }
 
 resource "aws_lambda_function" "handler_lambda" {
-  filename = "handler_lambda.zip"
+  filename = "./handler/handler_lambda.zip"
   function_name = "handler_lambda"
   role = aws_iam_role.iam_for_lambda.arn
   handler = "app.handler"
