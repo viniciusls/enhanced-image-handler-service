@@ -30,10 +30,10 @@ const publishToSNSTopic = async (bucketName, objectKey) => {
   });
 
   const snsPublishParams = {
-    Message: {
+    Message: JSON.stringify({
       default: messageBody,
       sqs: messageBody
-    },
+    }),
     MessageStructure: 'json',
     TopicArn: process.env.SNS_IMAGES_TOPIC_ARN
   };
