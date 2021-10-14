@@ -1,13 +1,13 @@
-module "policies" {
-  source = "../policies"
-}
-
 module "s3" {
   source = "../s3"
 }
 
 module "sns" {
   source = "../sns"
+}
+
+module "sqs" {
+  source = "../sqs"
 }
 
 data "archive_file" "lambda_zip" {
@@ -45,11 +45,16 @@ resource "aws_iam_role" "iam_for_lambda" {
     module.s3.file_read_policy_arn,
     module.sns.results_topic_iam_policy_arn,
     data.aws_iam_policy.AWSLambdaBasicExecutionRole.arn,
+    data.aws_iam_policy.AWSLambdaSQSQueueExecutionRole.arn,
   ]
 }
 
 data "aws_iam_policy" "AWSLambdaBasicExecutionRole" {
   arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+data "aws_iam_policy" "AWSLambdaSQSQueueExecutionRole" {
+  arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaSQSQueueExecutionRole"
 }
 
 resource "aws_lambda_function" "analyzer_lambda" {
@@ -61,4 +66,9 @@ resource "aws_lambda_function" "analyzer_lambda" {
   runtime = "nodejs14.x"
   timeout = 60
   memory_size = 1024
+}
+
+resource "aws_lambda_event_source_mapping" "event_source_mapping" {
+  event_source_arn = module.sqs.analyzer_queue_arn
+  function_name    = aws_lambda_function.analyzer_lambda.arn
 }

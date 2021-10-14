@@ -1,7 +1,3 @@
-module "policies" {
-  source = "../policies"
-}
-
 module "s3" {
   source = "../s3"
 }

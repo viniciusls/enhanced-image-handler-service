@@ -2,6 +2,10 @@ module "s3" {
   source = "../s3"
 }
 
+module "sqs" {
+  source = "../sqs"
+}
+
 data "archive_file" "lambda_zip" {
   type = "zip"
   source_dir = path.module
@@ -37,11 +41,16 @@ resource "aws_iam_role" "iam_for_lambda" {
     module.s3.file_read_policy_arn,
     module.s3.file_upload_policy_arn,
     data.aws_iam_policy.AWSLambdaBasicExecutionRole.arn,
+    data.aws_iam_policy.AWSLambdaSQSQueueExecutionRole.arn,
   ]
 }
 
 data "aws_iam_policy" "AWSLambdaBasicExecutionRole" {
   arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+data "aws_iam_policy" "AWSLambdaSQSQueueExecutionRole" {
+  arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaSQSQueueExecutionRole"
 }
 
 resource "aws_lambda_function" "thumbnailer_lambda" {
@@ -53,4 +62,9 @@ resource "aws_lambda_function" "thumbnailer_lambda" {
   runtime = "nodejs14.x"
   timeout = 60
   memory_size = 1024
+}
+
+resource "aws_lambda_event_source_mapping" "event_source_mapping" {
+  event_source_arn = module.sqs.thumbnailer_queue_arn
+  function_name    = aws_lambda_function.thumbnailer_lambda.arn
 }
