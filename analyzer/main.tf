@@ -62,6 +62,10 @@ resource "aws_lambda_function" "analyzer_lambda" {
     variables = {
       ANALYZER_CLARIFAI_MODEL_ID = var.analyzer_clarifai_model_id
       CLARIFAI_API_KEY = var.clarifai_api_key
+      MONGODB_USER = var.mongodb_user
+      MONGODB_PASSWORD = var.mongodb_password
+      MONGODB_HOST = var.mongodb_host
+      MONGODB_DATABASE = var.mongodb_database
     }
   }
 }

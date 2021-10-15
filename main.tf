@@ -37,6 +37,10 @@ module "analyzer_lambda" {
   sqs_analyzer_queue_arn = module.sqs.analyzer_queue_arn
   analyzer_clarifai_model_id = var.analyzer_clarifai_model_id
   clarifai_api_key = var.clarifai_api_key
+  mongodb_user = var.mongodb_user
+  mongodb_password = var.mongodb_password
+  mongodb_host = var.mongodb_host
+  mongodb_database = var.mongodb_database
 }
 
 module "handler_lambda" {

@@ -1,10 +1,15 @@
 // dependencies
 const AWS = require('aws-sdk');
 const axios = require('axios');
+const { MongoClient } = require("mongodb");
 const util = require('util');
 
 // get reference to S3 client
 const s3 = new AWS.S3();
+
+// mongoDB setup
+const uri = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}/${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority`;
+const mongoClient = new MongoClient(uri);
 
 exports.handler = async (event, context, callback) => {
   try {
@@ -21,6 +26,9 @@ exports.handler = async (event, context, callback) => {
     const analysisResult = await getAnalysis(origImage.Body);
 
     console.log(analysisResult);
+
+    await saveAnalysisResultToDatabase(srcKey, analysisResult);
+
     console.log(`Successfully analyzed ${srcBucket}/${srcKey}`);
   } catch (error) {
     console.log(error);
@@ -77,4 +85,25 @@ const getAnalysis = async (imageBuffer) => {
   );
 
   return response.data?.outputs[0]?.data?.concepts;
+}
+
+const saveAnalysisResultToDatabase = async(objectKey, analysisResult) => {
+  try {
+    await mongoClient.connect();
+
+    const database = mongoClient.db(process.env.MONGODB_DATABASE);
+    const collection = database.collection('documents');
+
+    const recordBody = formatRecord(objectKey, analysisResult);
+
+    console.log(recordBody);
+
+    return await collection.insertOne(recordBody);
+  } finally {
+    await mongoClient.close();
+  }
+}
+
+const formatRecord = (objectKey, analysisResult) => {
+  return Object.assign({ analysisResult }, { objectKey });
 }
