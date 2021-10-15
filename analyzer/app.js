@@ -1,5 +1,6 @@
 // dependencies
 const AWS = require('aws-sdk');
+const axios = require('axios');
 const util = require('util');
 
 // get reference to S3 client
@@ -17,6 +18,9 @@ exports.handler = async (event, context, callback) => {
 
     const origImage = await getObject(srcBucket, srcKey);
 
+    const analysisResult = await getAnalysis(origImage.Body);
+
+    console.log(analysisResult);
     console.log(`Successfully analyzed ${srcBucket}/${srcKey}`);
   } catch (error) {
     console.log(error);
@@ -46,4 +50,31 @@ const getObject = async (srcBucket, srcKey) => {
   };
 
   return await s3.getObject(params).promise();
+}
+
+const getAnalysis = async (imageBuffer) => {
+  const requestBody = JSON.stringify({
+    "inputs": [
+      {
+        "data": {
+          "image": {
+            "base64": imageBuffer
+          }
+        }
+      }
+    ]
+  });
+
+  const response = await axios.post(`https://api.clarifai.com/v2/models/${process.env.ANALYZER_CLARIFAI_MODEL_ID}/outputs`,
+    requestBody,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${process.env.CLARIFAI_API_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+
+  return response.data?.outputs[0]?.data?.concepts;
 }

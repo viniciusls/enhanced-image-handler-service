@@ -58,6 +58,12 @@ resource "aws_lambda_function" "analyzer_lambda" {
   runtime = "nodejs14.x"
   timeout = 60
   memory_size = 1024
+  environment {
+    variables = {
+      ANALYZER_CLARIFAI_MODEL_ID = var.analyzer_clarifai_model_id
+      CLARIFAI_API_KEY = var.clarifai_api_key
+    }
+  }
 }
 
 resource "aws_lambda_event_source_mapping" "event_source_mapping" {

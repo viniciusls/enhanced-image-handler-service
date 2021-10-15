@@ -35,6 +35,8 @@ module "analyzer_lambda" {
   s3_file_read_policy_arn = module.s3.file_read_policy_arn
   sns_results_topic_iam_policy_arn = module.sns.results_topic_iam_policy_arn
   sqs_analyzer_queue_arn = module.sqs.analyzer_queue_arn
+  analyzer_clarifai_model_id = var.analyzer_clarifai_model_id
+  clarifai_api_key = var.clarifai_api_key
 }
 
 module "handler_lambda" {
