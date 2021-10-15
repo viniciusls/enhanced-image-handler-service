@@ -58,7 +58,7 @@ const getAnalysis = async (imageBuffer) => {
       {
         "data": {
           "image": {
-            "base64": imageBuffer
+            "base64": imageBuffer.toString('base64')
           }
         }
       }
