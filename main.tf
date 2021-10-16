@@ -17,21 +17,28 @@ provider "aws" {
 
 module "sns" {
   source = "./sns"
+
+  environment = var.environment
 }
 
 module "sqs" {
   source = "./sqs"
 
   sns_images_topic_arn = module.sns.images_topic_arn
+  environment = var.environment
 }
 
 module "s3" {
   source = "./s3"
+
+  environment = var.environment
+  s3_bucket_name = var.s3_bucket_name
 }
 
 module "analyzer_lambda" {
   source = "./analyzer"
 
+  environment = var.environment
   s3_file_read_policy_arn = module.s3.file_read_policy_arn
   sns_results_topic_iam_policy_arn = module.sns.results_topic_iam_policy_arn
   sqs_analyzer_queue_arn = module.sqs.analyzer_queue_arn
@@ -46,6 +53,7 @@ module "analyzer_lambda" {
 module "handler_lambda" {
   source = "./handler"
 
+  environment = var.environment
   s3_file_upload_bucket_arn = module.s3.file_upload_bucket_arn
   sns_images_topic_iam_policy_arn = module.sns.images_topic_iam_policy_arn
   sns_images_topic_arn = module.sns.images_topic_arn
@@ -54,6 +62,7 @@ module "handler_lambda" {
 module "thumbnailer_lambda" {
   source = "./thumbnailer"
 
+  environment = var.environment
   s3_file_read_policy_arn = module.s3.file_read_policy_arn
   s3_file_upload_policy_arn = module.s3.file_upload_policy_arn
   sqs_thumbnailer_queue_arn = module.sqs.thumbnailer_queue_arn
@@ -70,4 +79,5 @@ module "api-gateway-s3-proxy" {
   source = "./api-gateway-s3-proxy"
 
   s3_file_upload_policy_arn = module.s3.file_upload_policy_arn
+  environment = var.environment
 }

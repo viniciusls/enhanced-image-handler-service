@@ -5,6 +5,14 @@ variable "region" {
   default = "sa-east-1"
 }
 
+variable "environment" {
+  default = "dev"
+}
+
+variable "s3_bucket_name" {
+  default = "enhanced-image-handler-service-bucket"
+}
+
 variable "clarifai_api_key" {
   description = "The API Key for Clarifai"
   type        = string

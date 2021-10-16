@@ -1,13 +1,9 @@
-variable "s3_file_read_policy_arn" {}
-variable "sns_results_topic_iam_policy_arn" {}
-variable "sqs_analyzer_queue_arn" {}
-
 data "archive_file" "lambda_zip" {
   type = "zip"
   source_dir = path.module
-  output_path = "./analyzer/analyzer_lambda.zip"
+  output_path = "./analyzer/${var.environment}_analyzer_lambda.zip"
   excludes = [
-    "analyzer_lambda.zip",
+    "${var.environment}_analyzer_lambda.zip",
     "main.tf",
     "outputs.tf",
     "variables.tf",
@@ -16,7 +12,7 @@ data "archive_file" "lambda_zip" {
 }
 
 resource "aws_iam_role" "iam_for_analyzer_lambda" {
-  name = "iam_for_analyzer_lambda"
+  name = "${var.environment}_iam_for_analyzer_lambda"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -50,8 +46,8 @@ data "aws_iam_policy" "AWSLambdaSQSQueueExecutionRole" {
 }
 
 resource "aws_lambda_function" "analyzer_lambda" {
-  filename = "./analyzer/analyzer_lambda.zip"
-  function_name = "analyzer_lambda"
+  filename = "./analyzer/${var.environment}_analyzer_lambda.zip"
+  function_name = "${var.environment}_analyzer_lambda"
   role = aws_iam_role.iam_for_analyzer_lambda.arn
   handler = "app.handler"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256

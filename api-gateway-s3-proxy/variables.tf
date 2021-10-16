@@ -6,7 +6,7 @@ variable "region" {
 }
 
 variable "environment" {
-  default = "prod"
+  default = "dev"
 }
 
 variable "s3_bucket_name" {
