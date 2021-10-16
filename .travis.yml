@@ -17,6 +17,9 @@ before_install:
   - unzip terraform_"$tf_version"_linux_amd64.zip
   - sudo mv terraform /usr/local/bin/
   - rm terraform_"$tf_version"_linux_amd64.zip
+  - wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+  - nvm install
+  - nvm use
   - export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
   - export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
   - export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
@@ -42,6 +45,7 @@ jobs:
         - terraform init $tf_init_cli_options
         - terraform workspace select prod
         - terraform validate $tf_validation_cli_options
+        - npm run build
         - terraform plan $tf_plan_cli_options
     - stage: terraform apply
       # Only run terraform apply stage if outside of a pull request
@@ -50,4 +54,5 @@ jobs:
         - echo "Merge detected, executing changes"
         - terraform init $tf_init_cli_options
         - terraform workspace select prod
+        - npm run build
         - terraform apply $tf_apply_cli_options
