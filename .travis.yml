@@ -39,6 +39,7 @@ jobs:
         - echo "Validating Terraform fmt"
         - terraform fmt -recursive -check
         - echo "Pull request detected, creating change plan"
+        - terraform workspace select prod
         - terraform init $tf_init_cli_options
         - terraform validate $tf_validation_cli_options
         - terraform plan $tf_plan_cli_options
@@ -47,5 +48,6 @@ jobs:
       if: type IN (push) and branch = main
       script:
         - echo "Merge detected, executing changes"
+        - terraform workspace select prod
         - terraform init $tf_init_cli_options
         - terraform apply $tf_apply_cli_options
