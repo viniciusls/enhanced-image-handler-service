@@ -27,7 +27,7 @@ exports.handler = async (event, context, callback) => {
 
     console.log(analysisResult);
 
-    await saveAnalysisResultToDatabase(srcKey, analysisResult);
+    await saveAnalysisResultToDatabase(srcBucket, srcKey, analysisResult);
 
     console.log(`Successfully analyzed ${srcBucket}/${srcKey}`);
   } catch (error) {
@@ -87,14 +87,14 @@ const getAnalysis = async (imageBuffer) => {
   return response.data?.outputs[0]?.data?.concepts;
 }
 
-const saveAnalysisResultToDatabase = async(objectKey, analysisResult) => {
+const saveAnalysisResultToDatabase = async(objectBucket, objectKey, analysisResult) => {
   try {
     await mongoClient.connect();
 
     const database = mongoClient.db(process.env.MONGODB_DATABASE);
     const collection = database.collection('documents');
 
-    const recordBody = formatRecord(objectKey, analysisResult);
+    const recordBody = formatRecord(objectBucket, objectKey, analysisResult);
 
     console.log(recordBody);
 
@@ -104,6 +104,6 @@ const saveAnalysisResultToDatabase = async(objectKey, analysisResult) => {
   }
 }
 
-const formatRecord = (objectKey, analysisResult) => {
-  return Object.assign({ analysisResult }, { objectKey });
+const formatRecord = (objectBucket, objectKey, analysisResult) => {
+  return Object.assign({ analysisResult }, { objectBucket, objectKey, createdAt: new Date().toISOString() });
 }
