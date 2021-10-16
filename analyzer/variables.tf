@@ -1,3 +1,11 @@
+variable "environment" {
+  default = "dev"
+}
+
+variable "s3_file_read_policy_arn" {}
+variable "sns_results_topic_iam_policy_arn" {}
+variable "sqs_analyzer_queue_arn" {}
+
 variable "clarifai_api_key" {
   description = "The API Key for Clarifai"
   type        = string

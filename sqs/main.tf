@@ -1,8 +1,6 @@
-variable "sns_images_topic_arn" {}
-
 resource "aws_sqs_queue" "analyzer_queue" {
-  name = var.sqs_queue_analyzer
-  message_retention_seconds = 86400
+  name                       = "${var.environment}-${var.sqs_queue_analyzer_name}"
+  message_retention_seconds  = 86400
   visibility_timeout_seconds = 60
 }
 
@@ -21,16 +19,16 @@ resource "aws_sqs_queue_policy" "sqs_analyzer_queue_policy" {
     Statement = [
       {
         Effect = "Allow"
-        Principal: {
-          Service: "sns.amazonaws.com"
+        Principal : {
+          Service : "sns.amazonaws.com"
         },
         Action = [
           "sqs:SendMessage"
         ]
         Resource = aws_sqs_queue.analyzer_queue.arn
         Condition = {
-          ArnEquals: {
-            "aws:SourceArn": var.sns_images_topic_arn
+          ArnEquals : {
+            "aws:SourceArn" : var.sns_images_topic_arn
           }
         }
       },
@@ -39,8 +37,8 @@ resource "aws_sqs_queue_policy" "sqs_analyzer_queue_policy" {
 }
 
 resource "aws_sqs_queue" "thumbnailer_queue" {
-  name = var.sqs_queue_thumbnailer
-  message_retention_seconds = 86400
+  name                       = "${var.environment}-${var.sqs_queue_thumbnailer_name}"
+  message_retention_seconds  = 86400
   visibility_timeout_seconds = 60
 }
 
@@ -59,16 +57,16 @@ resource "aws_sqs_queue_policy" "sqs_thumbnailer_queue_policy" {
     Statement = [
       {
         Effect = "Allow"
-        Principal: {
-          Service: "sns.amazonaws.com"
+        Principal : {
+          Service : "sns.amazonaws.com"
         },
         Action = [
           "sqs:SendMessage"
         ]
         Resource = aws_sqs_queue.thumbnailer_queue.arn
         Condition = {
-          ArnEquals: {
-            "aws:SourceArn": var.sns_images_topic_arn
+          ArnEquals : {
+            "aws:SourceArn" : var.sns_images_topic_arn
           }
         }
       },
