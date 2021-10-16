@@ -1,0 +1,28 @@
+{
+  "name": "enhanced-image-handler-service",
+  "version": "1.0.1",
+  "description": "Enhanced image handler service that generates thumbnails and evaluate image for metadata generation/analysis",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd ./analyzer && yarn install; cd ../handler && yarn install; cd ../thumbnailer && SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm install --arch=x64 --platform=linux sharp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viniciusls/enhanced-image-handler-service.git"
+  },
+  "keywords": [
+    "aws",
+    "lambda",
+    "s3",
+    "terraform",
+    "thumbnail",
+    "analysis"
+  ],
+  "author": "Vinicius Silva <vinicius.ls@live.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/viniciusls/enhanced-image-handler-service/issues"
+  },
+  "homepage": "https://github.com/viniciusls/enhanced-image-handler-service#readme"
+}
