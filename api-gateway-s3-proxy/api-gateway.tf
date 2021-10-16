@@ -1,8 +1,8 @@
 variable "s3_file_upload_policy_arn" {}
 
 resource "aws_api_gateway_rest_api" "api_gateway" {
-  name               = "${var.environment}-s3-proxy-lambda"
-  description        = "${var.environment} s3 proxy"
+  name               = "enhanced-image-handler-service-s3-proxy"
+  description        = "enhanced-image-handler-service s3 proxy"
   binary_media_types = var.supported_binary_media_types
 }
 
@@ -46,7 +46,7 @@ resource "aws_api_gateway_usage_plan_key" "s3_proxy_usage_plan-key" {
 }
 
 resource "aws_iam_role" "proxy_role" {
-  name               = "s3-proxy-role-lambda"
+  name               = "${var.environment}-api-gateway-s3-proxy-role"
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.proxy_policy.json
 }

@@ -6,7 +6,7 @@ resource "aws_api_gateway_integration" "item_put_method-api_proxy_integration" {
   type                    = "AWS"
   integration_http_method = "PUT"
   credentials             = aws_iam_role.proxy_role.arn
-  uri                     = "arn:aws:apigateway:${var.region}:s3:path/${var.s3_bucket_name}/{folder}/{item}"
+  uri                     = "arn:aws:apigateway:${var.region}:s3:path/${var.environment}-${var.s3_bucket_name}/{folder}/{item}"
 
   request_parameters = {
     "integration.request.header.x-amz-meta-fileinfo" = "method.request.header.x-amz-meta-fileinfo"
