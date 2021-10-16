@@ -1,6 +1,6 @@
 data "archive_file" "lambda_zip" {
-  type = "zip"
-  source_dir = path.module
+  type        = "zip"
+  source_dir  = path.module
   output_path = "./thumbnailer/${var.environment}_thumbnailer_lambda.zip"
   excludes = [
     "${var.environment}_thumbnailer_lambda.zip",
@@ -22,7 +22,7 @@ resource "aws_iam_role" "iam_for_thumbnailer_lambda" {
           "sts:AssumeRole"
         ]
         Principal = {
-          Service: "lambda.amazonaws.com"
+          Service : "lambda.amazonaws.com"
         }
         Effect = "Allow"
       },
@@ -46,14 +46,14 @@ data "aws_iam_policy" "AWSLambdaSQSQueueExecutionRole" {
 }
 
 resource "aws_lambda_function" "thumbnailer_lambda" {
-  filename = "./thumbnailer/${var.environment}_thumbnailer_lambda.zip"
-  function_name = "${var.environment}_thumbnailer_lambda"
-  role = aws_iam_role.iam_for_thumbnailer_lambda.arn
-  handler = "app.handler"
+  filename         = "./thumbnailer/${var.environment}_thumbnailer_lambda.zip"
+  function_name    = "${var.environment}_thumbnailer_lambda"
+  role             = aws_iam_role.iam_for_thumbnailer_lambda.arn
+  handler          = "app.handler"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
-  runtime = "nodejs14.x"
-  timeout = 60
-  memory_size = 1024
+  runtime          = "nodejs14.x"
+  timeout          = 60
+  memory_size      = 1024
 }
 
 resource "aws_lambda_event_source_mapping" "event_source_mapping" {

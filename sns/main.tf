@@ -12,7 +12,7 @@ resource "aws_iam_policy" "sns_iam_images_topic_policy" {
         Action = [
           "sns:Publish"
         ]
-        Effect = "Allow"
+        Effect   = "Allow"
         Resource = aws_sns_topic.images_topic.arn
       },
     ]
@@ -33,7 +33,7 @@ resource "aws_iam_policy" "sns_iam_results_topic_policy" {
         Action = [
           "sns:Publish"
         ]
-        Effect = "Allow"
+        Effect   = "Allow"
         Resource = aws_sns_topic.results_topic.arn
       },
     ]

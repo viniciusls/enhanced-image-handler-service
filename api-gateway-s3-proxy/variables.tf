@@ -35,6 +35,6 @@ variable "supported_binary_media_types" {
     "image/bmp",
     "image/svg+xml",
     "image/tiff",
-    "image/x-dcraw",                                                           # Digital raw image
+    "image/x-dcraw", # Digital raw image
   ]
 }

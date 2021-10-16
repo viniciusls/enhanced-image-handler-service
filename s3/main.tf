@@ -3,7 +3,7 @@ resource "aws_s3_bucket" "file_upload_bucket" {
   acl    = "private"
 
   tags = {
-    Name = var.s3_bucket_name
+    Name        = var.s3_bucket_name
     Environment = var.environment
   }
 }
@@ -20,7 +20,7 @@ resource "aws_iam_policy" "file_upload_policy" {
         Action = [
           "s3:PutObject"
         ]
-        Effect = "Allow"
+        Effect   = "Allow"
         Resource = "arn:aws:s3:::${var.environment}-${var.s3_bucket_name}/*"
       },
     ]
@@ -39,7 +39,7 @@ resource "aws_iam_policy" "file_read_policy" {
         Action = [
           "s3:GetObject",
         ]
-        Effect = "Allow"
+        Effect   = "Allow"
         Resource = "arn:aws:s3:::${var.environment}-${var.s3_bucket_name}/*"
       },
     ]

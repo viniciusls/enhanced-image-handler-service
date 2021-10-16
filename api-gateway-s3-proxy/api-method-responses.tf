@@ -28,7 +28,7 @@ resource "aws_api_gateway_method_response" "item_options_method_200_response" {
   response_parameters = {
     "method.response.header.Access-Control-Allow-Headers" = true
     "method.response.header.Access-Control-Allow-Methods" = true
-    "method.response.header.Access-Control-Allow-Origin" = true
+    "method.response.header.Access-Control-Allow-Origin"  = true
   }
 
   depends_on = [aws_api_gateway_method.item_options_method]
