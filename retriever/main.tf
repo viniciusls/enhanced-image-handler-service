@@ -30,8 +30,6 @@ resource "aws_iam_role" "iam_for_retriever_lambda" {
   })
 
   managed_policy_arns = [
-    var.s3_file_read_policy_arn,
-    var.sns_results_topic_iam_policy_arn,
     data.aws_iam_policy.AWSLambdaBasicExecutionRole.arn,
     data.aws_iam_policy.AWSLambdaSQSQueueExecutionRole.arn,
   ]
@@ -56,17 +54,11 @@ resource "aws_lambda_function" "retriever_lambda" {
   memory_size      = 1024
   environment {
     variables = {
-      retriever_CLARIFAI_MODEL_ID = var.retriever_clarifai_model_id
-      CLARIFAI_API_KEY           = var.clarifai_api_key
-      MONGODB_USER               = var.mongodb_user
-      MONGODB_PASSWORD           = var.mongodb_password
-      MONGODB_HOST               = var.mongodb_host
-      MONGODB_DATABASE           = var.mongodb_database
+      MONGODB_USER                        = var.mongodb_user
+      MONGODB_PASSWORD                    = var.mongodb_password
+      MONGODB_HOST                        = var.mongodb_host
+      MONGODB_DATABASE                    = var.mongodb_database
+      MONGODB_ANALYSIS_RESULTS_COLLECTION = var.mongodb_analysis_results_collection
     }
   }
-}
-
-resource "aws_lambda_event_source_mapping" "event_source_mapping" {
-  event_source_arn = var.sqs_retriever_queue_arn
-  function_name    = aws_lambda_function.retriever_lambda.arn
 }

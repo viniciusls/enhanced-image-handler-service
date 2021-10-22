@@ -29,7 +29,7 @@ const getObjectsByFilter = async(filters) => {
     await mongoClient.connect();
 
     const database = mongoClient.db(process.env.MONGODB_DATABASE);
-    const collection = database.collection('documents');
+    const collection = database.collection(process.env.MONGODB_ANALYSIS_RESULTS_COLLECTION);
     const filters = formatFilters(filters);
 
     const results = await collection.find({ $and: filters });
