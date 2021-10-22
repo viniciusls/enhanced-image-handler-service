@@ -38,16 +38,17 @@ module "s3" {
 module "analyzer_lambda" {
   source = "./analyzer"
 
-  environment                      = var.environment
-  s3_file_read_policy_arn          = module.s3.file_read_policy_arn
-  sns_results_topic_iam_policy_arn = module.sns.results_topic_iam_policy_arn
-  sqs_analyzer_queue_arn           = module.sqs.analyzer_queue_arn
-  analyzer_clarifai_model_id       = var.analyzer_clarifai_model_id
-  clarifai_api_key                 = var.clarifai_api_key
-  mongodb_user                     = var.mongodb_user
-  mongodb_password                 = var.mongodb_password
-  mongodb_host                     = var.mongodb_host
-  mongodb_database                 = var.mongodb_database
+  environment                         = var.environment
+  s3_file_read_policy_arn             = module.s3.file_read_policy_arn
+  sns_results_topic_iam_policy_arn    = module.sns.results_topic_iam_policy_arn
+  sqs_analyzer_queue_arn              = module.sqs.analyzer_queue_arn
+  analyzer_clarifai_model_id          = var.analyzer_clarifai_model_id
+  clarifai_api_key                    = var.clarifai_api_key
+  mongodb_user                        = var.mongodb_user
+  mongodb_password                    = var.mongodb_password
+  mongodb_host                        = var.mongodb_host
+  mongodb_database                    = var.mongodb_database
+  mongodb_analysis_results_collection = var.mongodb_analysis_results_collection
 }
 
 module "handler_lambda" {

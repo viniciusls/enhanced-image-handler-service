@@ -56,12 +56,13 @@ resource "aws_lambda_function" "analyzer_lambda" {
   memory_size      = 1024
   environment {
     variables = {
-      ANALYZER_CLARIFAI_MODEL_ID = var.analyzer_clarifai_model_id
-      CLARIFAI_API_KEY           = var.clarifai_api_key
-      MONGODB_USER               = var.mongodb_user
-      MONGODB_PASSWORD           = var.mongodb_password
-      MONGODB_HOST               = var.mongodb_host
-      MONGODB_DATABASE           = var.mongodb_database
+      ANALYZER_CLARIFAI_MODEL_ID          = var.analyzer_clarifai_model_id
+      CLARIFAI_API_KEY                    = var.clarifai_api_key
+      MONGODB_USER                        = var.mongodb_user
+      MONGODB_PASSWORD                    = var.mongodb_password
+      MONGODB_HOST                        = var.mongodb_host
+      MONGODB_DATABASE                    = var.mongodb_database
+      MONGODB_ANALYSIS_RESULTS_COLLECTION = var.mongodb_analysis_results_collection
     }
   }
 }
