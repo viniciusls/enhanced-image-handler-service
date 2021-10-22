@@ -11,7 +11,7 @@ exports.handler = async (event, context, callback) => {
   try {
     // Read options from the event parameter.
     console.log("Reading options from event:\n", util.inspect(event, {depth: 5}));
-    const body = JSON.parse(event.Records[0].body);
+    const body = JSON.parse(event.body);
 
     const objects = await getObjectsByFilter(body.terms);
 
