@@ -30,6 +30,7 @@ before_install:
   - export TF_VAR_mongodb_password=${TF_VAR_mongodb_password}
   - export TF_VAR_mongodb_host=${TF_VAR_mongodb_host}
   - export TF_VAR_mongodb_database=${TF_VAR_mongodb_database}
+  - export TF_VAR_mongodb_analysis_results_collection=${TF_VAR_mongodb_analysis_results_collection}
 
 # Terraform Plan and Apply
 # Plan only on pull requests, Apply on merged code
