@@ -1,6 +1,7 @@
 // dependencies
 const AWS = require('aws-sdk');
 const axios = require('axios');
+const crypto = require('crypto');
 const { MongoClient } = require("mongodb");
 const util = require('util');
 
@@ -16,29 +17,31 @@ exports.handler = async (event, context, callback) => {
     // Read options from the event parameter.
     console.log("Reading options from event:\n", util.inspect(event, {depth: 5}));
     const body = JSON.parse(event.Records[0].body);
-    const srcBucket = body.BucketName;
+    const imageBucket = body.BucketName;
 
     // Object key may have spaces or unicode non-ASCII characters.
-    const srcKey = decodeURIComponent(body.ObjectKey.replace(/\+/g, " "));
+    const imageKey = decodeURIComponent(body.ObjectKey.replace(/\+/g, " "));
 
-    const origImage = await getObject(srcBucket, srcKey);
+    const origImage = await getObject(imageBucket, imageKey);
+    const imageBase64 = convertBufferToBase64(origImage.Body);
+    const imageHash = getHash(imageBase64);
 
-    const analysisResult = await getAnalysis(origImage.Body);
+    const analysisResult = await getAnalysis(imageBase64);
 
     console.log(analysisResult);
 
-    await saveAnalysisResultToDatabase(srcBucket, srcKey, analysisResult);
+    await saveAnalysisResultToDatabase(imageBucket, imageKey, imageHash, analysisResult);
 
-    console.log(`Successfully analyzed ${srcBucket}/${srcKey}`);
+    console.log(`Successfully analyzed ${imageBucket}/${imageKey}`);
   } catch (error) {
     console.log(error);
     return false;
   }
 };
 
-const getObject = async (srcBucket, srcKey) => {
+const getObject = async (imageBucket, imageKey) => {
   // Infer the image type from the file suffix.
-  const typeMatch = srcKey.match(/\.([^.]*)$/);
+  const typeMatch = imageKey.match(/\.([^.]*)$/);
   if (!typeMatch) {
     console.log("Could not determine the image type.");
     return;
@@ -53,20 +56,20 @@ const getObject = async (srcBucket, srcKey) => {
 
   // Download the image from the S3 source bucket.
   const params = {
-    Bucket: srcBucket,
-    Key: srcKey
+    Bucket: imageBucket,
+    Key: imageKey
   };
 
   return await s3.getObject(params).promise();
 }
 
-const getAnalysis = async (imageBuffer) => {
+const getAnalysis = async (imageBase64) => {
   const requestBody = JSON.stringify({
     "inputs": [
       {
         "data": {
           "image": {
-            "base64": imageBuffer.toString('base64')
+            "base64": imageBase64
           }
         }
       }
@@ -87,14 +90,14 @@ const getAnalysis = async (imageBuffer) => {
   return response.data?.outputs[0]?.data?.concepts;
 }
 
-const saveAnalysisResultToDatabase = async(objectBucket, objectKey, analysisResult) => {
+const saveAnalysisResultToDatabase = async(imageBucket, imageKey, imageHash, analysisResult) => {
   try {
     await mongoClient.connect();
 
     const database = mongoClient.db(process.env.MONGODB_DATABASE);
     const collection = database.collection(process.env.MONGODB_ANALYSIS_RESULTS_COLLECTION);
 
-    const recordBody = formatRecord(objectBucket, objectKey, analysisResult);
+    const recordBody = formatRecord(imageBucket, imageKey, imageHash, analysisResult);
 
     console.log(recordBody);
 
@@ -104,6 +107,17 @@ const saveAnalysisResultToDatabase = async(objectBucket, objectKey, analysisResu
   }
 }
 
-const formatRecord = (objectBucket, objectKey, analysisResult) => {
-  return Object.assign({ analysisResult }, { objectBucket, objectKey, createdAt: new Date().toISOString() });
+const formatRecord = (imageBucket, imageKey, imageHash, analysisResult) => {
+  return Object.assign({ analysisResult }, { imageBucket, imageKey, imageHash, createdAt: new Date().toISOString() });
+}
+
+const convertBufferToBase64 = (imageBuffer) => {
+  return imageBuffer.toString('base64');
+}
+
+const getHash = (content) => {
+  const hash = crypto.createHash('sha256');
+  hash.update(content);
+
+  return hash.digest('hex');
 }
