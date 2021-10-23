@@ -60,6 +60,18 @@ module "handler_lambda" {
   sns_images_topic_arn            = module.sns.images_topic_arn
 }
 
+module "retriver_lambda" {
+  source = "./retriever"
+
+  environment                         = var.environment
+  s3_bucket_name                      = var.s3_bucket_name
+  mongodb_user                        = var.mongodb_user
+  mongodb_password                    = var.mongodb_password
+  mongodb_host                        = var.mongodb_host
+  mongodb_database                    = var.mongodb_database
+  mongodb_analysis_results_collection = var.mongodb_analysis_results_collection
+}
+
 module "thumbnailer_lambda" {
   source = "./thumbnailer"
 
@@ -81,4 +93,11 @@ module "api-gateway-s3-proxy" {
 
   s3_file_upload_policy_arn = module.s3.file_upload_policy_arn
   environment               = var.environment
+}
+
+module "api-gateway-retriever-proxy" {
+  source = "./api-gateway-retriever-proxy"
+
+  lambda_retriever_arn = module.retriver_lambda.lambda_arn
+  environment          = var.environment
 }
