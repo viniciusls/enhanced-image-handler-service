@@ -14,25 +14,28 @@ exports.handler = async (event, context, callback) => {
     const body = JSON.parse(event.body);
 
     const objects = await getObjectsByFilter(body.terms);
+    const response = formatAPIGatewayResponse(objects);
 
-    console.log(objects);
+    console.log(response);
 
-    callback(null, objects);
+    callback(null, response);
   } catch (error) {
     callback(error);
     return false;
   }
 };
 
-const getObjectsByFilter = async(filters) => {
+const getObjectsByFilter = async(terms) => {
   try {
     await mongoClient.connect();
 
     const database = mongoClient.db(process.env.MONGODB_DATABASE);
     const collection = database.collection(process.env.MONGODB_ANALYSIS_RESULTS_COLLECTION);
-    const filters = formatFilters(filters);
+    const filters = formatFilters(terms);
 
-    const results = await collection.find({ $and: filters });
+    console.log(filters);
+
+    const results = await collection.find({ $and: filters }).toArray();
 
     console.log(results);
 
@@ -45,11 +48,19 @@ const getObjectsByFilter = async(filters) => {
 const formatFilters = (terms) => {
   const filtersForNestedObject = [];
 
-  filtersForNestedObject.push({"objectBucket": process.env.s3_bucket_name});
+  filtersForNestedObject.push({"objectBucket": process.env.S3_BUCKET_NAME});
 
   terms.forEach(term => {
-    filtersForNestedObject.push({"analysisResult.name": term})
+    filtersForNestedObject.push({"analysisResult.name": term.toLowerCase()})
   });
 
   return filtersForNestedObject;
+}
+
+const formatAPIGatewayResponse = (objects) => {
+  return {
+    isBase64Encoded: false,
+    statusCode: 200,
+    body: JSON.stringify(objects)
+  }
 }

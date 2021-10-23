@@ -39,7 +39,7 @@ resource "aws_apigatewayv2_integration" "find_by_terms" {
 resource "aws_apigatewayv2_route" "find_by_terms" {
   api_id = aws_apigatewayv2_api.lambda.id
 
-  route_key = "POST /analysis/Terms"
+  route_key = "POST /analysis/terms"
   target    = "integrations/${aws_apigatewayv2_integration.find_by_terms.id}"
 }
 

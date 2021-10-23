@@ -59,6 +59,7 @@ resource "aws_lambda_function" "retriever_lambda" {
       MONGODB_HOST                        = var.mongodb_host
       MONGODB_DATABASE                    = var.mongodb_database
       MONGODB_ANALYSIS_RESULTS_COLLECTION = var.mongodb_analysis_results_collection
+      S3_BUCKET_NAME                      = "${var.environment}-${var.s3_bucket_name}"
     }
   }
 }
