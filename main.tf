@@ -38,9 +38,9 @@ module "s3" {
 module "ec2_mongo_redis" {
   source = "./ec2-mongo-redis"
 
-  ami_id               = var.ami_id
-  key_name             = var.ec2_key_name
-  vpc_id               = var.vpc_id
+  ami_id   = var.ami_id
+  key_name = var.ec2_key_name
+  vpc_id   = var.vpc_id
 }
 
 module "analyzer_lambda" {
