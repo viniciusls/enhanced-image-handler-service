@@ -9,7 +9,7 @@ const util = require('util');
 const s3 = new AWS.S3();
 
 // mongoDB setup
-const uri = `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}/${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority`;
+const uri = `mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}/${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority`;
 const mongoClient = new MongoClient(uri);
 
 exports.handler = async (event, context, callback) => {

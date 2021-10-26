@@ -35,6 +35,16 @@ module "s3" {
   s3_bucket_name = var.s3_bucket_name
 }
 
+module "ec2_mongo_redis" {
+  source = "./ec2-mongo-redis"
+
+  ami_id               = var.ami_id
+  key_name             = var.ec2_key_name
+  vpc_id               = var.vpc_id
+  private_subnet_ids   = split(",", var.private_subnet_ids)
+  private_subnet_cidrs = split(",", var.private_subnet_cidrs)
+}
+
 module "analyzer_lambda" {
   source = "./analyzer"
 
@@ -46,7 +56,7 @@ module "analyzer_lambda" {
   clarifai_api_key                    = var.clarifai_api_key
   mongodb_user                        = var.mongodb_user
   mongodb_password                    = var.mongodb_password
-  mongodb_host                        = var.mongodb_host
+  mongodb_host                        = module.ec2_mongo_redis.address
   mongodb_database                    = var.mongodb_database
   mongodb_analysis_results_collection = var.mongodb_analysis_results_collection
 }
@@ -60,16 +70,20 @@ module "handler_lambda" {
   sns_images_topic_arn            = module.sns.images_topic_arn
 }
 
-module "retriver_lambda" {
+module "retriever_lambda" {
   source = "./retriever"
 
   environment                         = var.environment
   s3_bucket_name                      = var.s3_bucket_name
   mongodb_user                        = var.mongodb_user
   mongodb_password                    = var.mongodb_password
-  mongodb_host                        = var.mongodb_host
+  mongodb_host                        = module.ec2_mongo_redis.address
   mongodb_database                    = var.mongodb_database
   mongodb_analysis_results_collection = var.mongodb_analysis_results_collection
+  redis_host                          = module.ec2_mongo_redis.address
+  redis_port                          = "6379"
+  redis_user                          = var.redis_user
+  redis_password                      = var.redis_password
 }
 
 module "thumbnailer_lambda" {
@@ -98,6 +112,6 @@ module "api-gateway-s3-proxy" {
 module "api-gateway-retriever-proxy" {
   source = "./api-gateway-retriever-proxy"
 
-  lambda_retriever_arn = module.retriver_lambda.lambda_arn
+  lambda_retriever_arn = module.retriever_lambda.lambda_arn
   environment          = var.environment
 }
