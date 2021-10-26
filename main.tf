@@ -41,8 +41,6 @@ module "ec2_mongo_redis" {
   ami_id               = var.ami_id
   key_name             = var.ec2_key_name
   vpc_id               = var.vpc_id
-  private_subnet_ids   = split(",", var.private_subnet_ids)
-  private_subnet_cidrs = split(",", var.private_subnet_cidrs)
 }
 
 module "analyzer_lambda" {
