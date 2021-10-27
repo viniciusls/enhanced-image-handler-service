@@ -1,5 +1,15 @@
+locals {
+  only_in_production_mapping = {
+    dev     = 0
+    staging = 0
+    prod    = 1
+  }
+  only_in_production = local.only_in_production_mapping[terraform.workspace]
+}
+
 # Create EC2 Mongo Redis security group
 resource "aws_security_group" "ec2_mongo_redis_sg" {
+  count  = local.only_in_production
   vpc_id = var.vpc_id
 
   ingress {
@@ -25,6 +35,7 @@ resource "aws_security_group" "ec2_mongo_redis_sg" {
 }
 
 resource "aws_instance" "ec2_mongo_redis" {
+  count                       = local.only_in_production
   ami                         = var.ami_id
   instance_type               = "t2.micro"
   associate_public_ip_address = true
