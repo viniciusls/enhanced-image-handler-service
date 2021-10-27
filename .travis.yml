@@ -9,7 +9,7 @@ branches:
 
 # Export variables
 env:
-  - tf_version=1.0.5 tf_init_cli_options="-input=false" tf_validation_cli_options="" tf_plan_cli_options="-lock=false -input=false" tf_apply_cli_options="-auto-approve -input=false"
+  - tf_version=1.0.9 tf_init_cli_options="-input=false" tf_validation_cli_options="" tf_plan_cli_options="-lock=false -input=false" tf_apply_cli_options="-auto-approve -input=false"
 
 # Install dependencies
 before_install:
@@ -26,11 +26,17 @@ before_install:
   - export TF_VAR_environment=${TF_VAR_environment}
   - export TF_VAR_analyzer_clarifai_model_id=${TF_VAR_analyzer_clarifai_model_id}
   - export TF_VAR_clarifai_api_key=${TF_VAR_clarifai_api_key}
+  - export TF_VAR_mongodb_personal_host=${TF_VAR_mongodb_personal_host}
   - export TF_VAR_mongodb_user=${TF_VAR_mongodb_user}
   - export TF_VAR_mongodb_password=${TF_VAR_mongodb_password}
-  - export TF_VAR_mongodb_host=${TF_VAR_mongodb_host}
   - export TF_VAR_mongodb_database=${TF_VAR_mongodb_database}
   - export TF_VAR_mongodb_analysis_results_collection=${TF_VAR_mongodb_analysis_results_collection}
+  - export TF_VAR_vpc_id=${TF_VAR_vpc_id}
+  - export TF_VAR_ami_id=${TF_VAR_ami_id}
+  - export TF_VAR_ec2_key_name=${TF_VAR_ec2_key_name}
+  - export TF_VAR_redis_personal_host=${TF_VAR_redis_personal_host}
+  - export TF_VAR_redis_user=${TF_VAR_redis_user}
+  - export TF_VAR_redis_password=${TF_VAR_redis_password}
 
 # Terraform Plan and Apply
 # Plan only on pull requests, Apply on merged code

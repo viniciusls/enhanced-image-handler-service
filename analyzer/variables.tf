@@ -31,8 +31,15 @@ variable "mongodb_password" {
 
 variable "mongodb_host" {
   description = "The host for MongoDB connection"
+  sensitive   = true
+  default     = ""
+}
+
+variable "mongodb_personal_host" {
+  description = "The personal host for MongoDB connection"
   type        = string
   sensitive   = true
+  default     = ""
 }
 
 variable "mongodb_database" {
