@@ -9,7 +9,6 @@ locals {
 
 # Create EC2 Mongo Redis security group
 resource "aws_security_group" "ec2_mongo_redis_sg" {
-  count  = local.only_in_production
   vpc_id = var.vpc_id
 
   ingress {
