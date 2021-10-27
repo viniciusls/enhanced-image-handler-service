@@ -28,6 +28,7 @@ variable "mongodb_personal_host" {
   description = "The personal host for MongoDB connection"
   type        = string
   sensitive   = true
+  default     = ""
 }
 
 variable "mongodb_user" {
@@ -57,6 +58,7 @@ variable "redis_personal_host" {
   description = "The personal host for Redis connection"
   type        = string
   sensitive   = true
+  default     = ""
 }
 
 variable "redis_user" {

@@ -9,6 +9,7 @@ locals {
 
 # Create EC2 Mongo Redis security group
 resource "aws_security_group" "ec2_mongo_redis_sg" {
+  count  = local.only_in_production
   vpc_id = var.vpc_id
 
   ingress {
@@ -40,7 +41,7 @@ resource "aws_instance" "ec2_mongo_redis" {
   associate_public_ip_address = true
   key_name                    = var.key_name
   security_groups = [
-    aws_security_group.ec2_mongo_redis_sg.name
+    aws_security_group.ec2_mongo_redis_sg[count.index].name
   ]
 
   credit_specification {

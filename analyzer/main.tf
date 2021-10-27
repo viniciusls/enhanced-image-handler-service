@@ -60,7 +60,7 @@ resource "aws_lambda_function" "analyzer_lambda" {
       CLARIFAI_API_KEY                    = var.clarifai_api_key
       MONGODB_USER                        = var.mongodb_user
       MONGODB_PASSWORD                    = var.mongodb_password
-      MONGODB_HOST                        = var.mongodb_host
+      MONGODB_HOST                        = length(var.mongodb_host) == 1 ? var.mongodb_host[0] : ""
       MONGODB_PERSONAL_HOST               = var.mongodb_personal_host
       MONGODB_DATABASE                    = var.mongodb_database
       MONGODB_ANALYSIS_RESULTS_COLLECTION = var.mongodb_analysis_results_collection

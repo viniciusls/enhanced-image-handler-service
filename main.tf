@@ -81,7 +81,7 @@ module "retriever_lambda" {
   mongodb_database                    = var.mongodb_database
   mongodb_analysis_results_collection = var.mongodb_analysis_results_collection
   redis_host                          = module.ec2_mongo_redis.address
-  redis_personal_host                 = module.ec2_mongo_redis.address
+  redis_personal_host                 = var.redis_personal_host
   redis_port                          = "6379"
   redis_user                          = var.redis_user
   redis_password                      = var.redis_password
