@@ -4,12 +4,12 @@ const Redis = require("ioredis");
 const util = require('util');
 
 // mongoDB setup
-const uri = `mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}/${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority`;
+const uri = `mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_PERSONAL_HOST || process.env.MONGODB_HOST}/${process.env.MONGODB_DATABASE}?retryWrites=true&w=majority`;
 const mongoClient = new MongoClient(uri);
 
 // Redis setup
 const redis = new Redis({
-  host: process.env.REDIS_ADDRESS, // Redis host
+  host: process.env.REDIS_PERSONAL_HOST || process.env.REDIS_HOST, // Redis host
   port: process.env.REDIS_PORT, // Redis port
   username: process.env.REDIS_USER,
   password: process.env.REDIS_PASSWORD,

@@ -22,6 +22,12 @@ variable "mongodb_host" {
   sensitive   = true
 }
 
+variable "mongodb_personal_host" {
+  description = "The personal host for MongoDB connection"
+  type        = string
+  sensitive   = true
+}
+
 variable "mongodb_database" {
   description = "The database for MongoDB connection"
   type        = string
@@ -35,6 +41,12 @@ variable "mongodb_analysis_results_collection" {
 
 variable "redis_host" {
   description = "The host for Redis connection"
+  type        = string
+  sensitive   = true
+}
+
+variable "redis_personal_host" {
+  description = "The personal host for Redis connection"
   type        = string
   sensitive   = true
 }

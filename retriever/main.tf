@@ -53,10 +53,12 @@ resource "aws_lambda_function" "retriever_lambda" {
       MONGODB_USER                        = var.mongodb_user
       MONGODB_PASSWORD                    = var.mongodb_password
       MONGODB_HOST                        = var.mongodb_host
+      MONGODB_PERSONAL_HOST               = var.mongodb_personal_host
       MONGODB_DATABASE                    = var.mongodb_database
       MONGODB_ANALYSIS_RESULTS_COLLECTION = var.mongodb_analysis_results_collection
       S3_BUCKET_NAME                      = "${var.environment}-${var.s3_bucket_name}"
-      REDIS_ADDRESS                       = var.redis_host
+      REDIS_HOST                          = var.redis_host
+      REDIS_PERSONAL_HOST                 = var.redis_personal_host
       REDIS_PORT                          = var.redis_port
       REDIS_USER                          = var.redis_user
       REDIS_PASSWORD                      = var.redis_password

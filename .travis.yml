@@ -26,6 +26,7 @@ before_install:
   - export TF_VAR_environment=${TF_VAR_environment}
   - export TF_VAR_analyzer_clarifai_model_id=${TF_VAR_analyzer_clarifai_model_id}
   - export TF_VAR_clarifai_api_key=${TF_VAR_clarifai_api_key}
+  - export TF_VAR_mongodb_personal_host=${TF_VAR_mongodb_personal_host}
   - export TF_VAR_mongodb_user=${TF_VAR_mongodb_user}
   - export TF_VAR_mongodb_password=${TF_VAR_mongodb_password}
   - export TF_VAR_mongodb_database=${TF_VAR_mongodb_database}
@@ -33,6 +34,7 @@ before_install:
   - export TF_VAR_vpc_id=${TF_VAR_vpc_id}
   - export TF_VAR_ami_id=${TF_VAR_ami_id}
   - export TF_VAR_ec2_key_name=${TF_VAR_ec2_key_name}
+  - export TF_VAR_redis_personal_host=${TF_VAR_redis_personal_host}
   - export TF_VAR_redis_user=${TF_VAR_redis_user}
   - export TF_VAR_redis_password=${TF_VAR_redis_password}
 
