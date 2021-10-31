@@ -1,3 +1,3 @@
 output "lambda_arn" {
-  value = aws_lambda_function.analyzer_lambda.arn
+  value = module.analyzer_lambda.lambda_arn
 }

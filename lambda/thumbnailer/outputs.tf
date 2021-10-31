@@ -1,3 +1,3 @@
 output "lambda_arn" {
-  value = aws_lambda_function.thumbnailer_lambda.arn
+  value = module.thumbnailer_lambda.lambda_arn
 }

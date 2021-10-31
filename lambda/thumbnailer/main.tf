@@ -45,10 +45,12 @@ data "aws_iam_policy" "AWSLambdaSQSQueueExecutionRole" {
   arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaSQSQueueExecutionRole"
 }
 
-resource "aws_lambda_function" "thumbnailer_lambda" {
+module "thumbnailer_lambda" {
+  source = "../"
+
   filename         = "./lambda/thumbnailer/${var.environment}_thumbnailer_lambda.zip"
   function_name    = "${var.environment}_thumbnailer_lambda"
-  role             = aws_iam_role.iam_for_thumbnailer_lambda.arn
+  iam_role_arn     = aws_iam_role.iam_for_thumbnailer_lambda.arn
   handler          = "app.handler"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
   runtime          = "nodejs14.x"
@@ -58,5 +60,5 @@ resource "aws_lambda_function" "thumbnailer_lambda" {
 
 resource "aws_lambda_event_source_mapping" "event_source_mapping" {
   event_source_arn = var.sqs_thumbnailer_queue_arn
-  function_name    = aws_lambda_function.thumbnailer_lambda.arn
+  function_name    = module.thumbnailer_lambda.lambda_arn
 }
