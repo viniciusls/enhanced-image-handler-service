@@ -1,7 +1,7 @@
 {
   "name": "enhanced-image-handler-service",
-  "version": "1.0.7",
-  "description": "Simple AWS Lambda to retrive images uploaded to AWS S3 by filter using Terraform",
+  "version": "1.8.0",
+  "description": "Simple AWS Lambda to generate SNS messages from images uploaded to AWS S3 using Terraform",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,9 +13,8 @@
   "keywords": [
     "aws",
     "lambda",
-    "s3",
-    "terraform",
-    "retrieve"
+    "sns",
+    "terraform"
   ],
   "author": "Vinicius Silva <vinicius.ls@live.com>",
   "license": "MIT",
@@ -24,8 +23,6 @@
   },
   "homepage": "https://github.com/viniciusls/enhanced-image-handler-service#readme",
   "dependencies": {
-    "aws-sdk": "^2.1018.0",
-    "ioredis": "^4.28.0",
-    "mongodb": "^4.1.3"
+    "aws-sdk": "^2.1018.0"
   }
 }
