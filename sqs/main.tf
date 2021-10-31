@@ -2,6 +2,7 @@ resource "aws_sqs_queue" "analyzer_queue" {
   name                       = "${var.environment}-${var.sqs_queue_analyzer_name}"
   message_retention_seconds  = 86400
   visibility_timeout_seconds = 60
+  receive_wait_time_seconds  = 20
 }
 
 resource "aws_sns_topic_subscription" "images_to_analyzer_subscription" {
@@ -40,6 +41,7 @@ resource "aws_sqs_queue" "thumbnailer_queue" {
   name                       = "${var.environment}-${var.sqs_queue_thumbnailer_name}"
   message_retention_seconds  = 86400
   visibility_timeout_seconds = 60
+  receive_wait_time_seconds  = 20
 }
 
 resource "aws_sns_topic_subscription" "images_to_thumbailer_subscription" {
