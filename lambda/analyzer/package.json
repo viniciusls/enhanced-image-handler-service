@@ -1,6 +1,6 @@
 {
   "name": "enhanced-image-handler-service",
-  "version": "1.0.7",
+  "version": "1.8.0",
   "description": "Simple AWS Lambda to analyze images uploaded to AWS S3 using Terraform",
   "main": "app.js",
   "scripts": {
