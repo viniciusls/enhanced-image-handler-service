@@ -1,7 +1,7 @@
 data "archive_file" "lambda_zip" {
   type        = "zip"
   source_dir  = path.module
-  output_path = "./handler/${var.environment}_handler_lambda.zip"
+  output_path = "./lambda/handler/${var.environment}_handler_lambda.zip"
   excludes = [
     "${var.environment}_handler_lambda.zip",
     "main.tf",
@@ -48,7 +48,7 @@ resource "aws_lambda_permission" "allow_bucket" {
 }
 
 resource "aws_lambda_function" "handler_lambda" {
-  filename         = "./handler/${var.environment}_handler_lambda.zip"
+  filename         = "./lambda/handler/${var.environment}_handler_lambda.zip"
   function_name    = "${var.environment}_handler_lambda"
   role             = aws_iam_role.iam_for_handler_lambda.arn
   handler          = "app.handler"

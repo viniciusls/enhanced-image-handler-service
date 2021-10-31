@@ -1,7 +1,7 @@
 data "archive_file" "lambda_zip" {
   type        = "zip"
   source_dir  = path.module
-  output_path = "./analyzer/${var.environment}_analyzer_lambda.zip"
+  output_path = "./lambda/analyzer/${var.environment}_analyzer_lambda.zip"
   excludes = [
     "${var.environment}_analyzer_lambda.zip",
     "main.tf",
@@ -46,7 +46,7 @@ data "aws_iam_policy" "AWSLambdaSQSQueueExecutionRole" {
 }
 
 resource "aws_lambda_function" "analyzer_lambda" {
-  filename         = "./analyzer/${var.environment}_analyzer_lambda.zip"
+  filename         = "./lambda/analyzer/${var.environment}_analyzer_lambda.zip"
   function_name    = "${var.environment}_analyzer_lambda"
   role             = aws_iam_role.iam_for_analyzer_lambda.arn
   handler          = "app.handler"

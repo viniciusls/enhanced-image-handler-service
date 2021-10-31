@@ -61,7 +61,7 @@ module "ec2_mongo_redis" {
 }
 
 module "analyzer_lambda" {
-  source = "./analyzer"
+  source = "./lambda/analyzer"
 
   environment                         = var.environment
   s3_file_read_policy_arn             = module.s3.file_read_policy_arn
@@ -78,7 +78,7 @@ module "analyzer_lambda" {
 }
 
 module "handler_lambda" {
-  source = "./handler"
+  source = "./lambda/handler"
 
   environment                     = var.environment
   s3_file_upload_bucket_arn       = module.s3.file_upload_bucket_arn
@@ -87,7 +87,7 @@ module "handler_lambda" {
 }
 
 module "retriever_lambda" {
-  source = "./retriever"
+  source = "./lambda/retriever"
 
   environment                         = var.environment
   s3_bucket_name                      = var.s3_bucket_name
@@ -105,7 +105,7 @@ module "retriever_lambda" {
 }
 
 module "thumbnailer_lambda" {
-  source = "./thumbnailer"
+  source = "./lambda/thumbnailer"
 
   environment               = var.environment
   s3_file_read_policy_arn   = module.s3.file_read_policy_arn

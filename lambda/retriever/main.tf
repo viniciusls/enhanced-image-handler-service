@@ -1,7 +1,7 @@
 data "archive_file" "lambda_zip" {
   type        = "zip"
   source_dir  = path.module
-  output_path = "./retriever/${var.environment}_retriever_lambda.zip"
+  output_path = "./lambda/retriever/${var.environment}_retriever_lambda.zip"
   excludes = [
     "${var.environment}_retriever_lambda.zip",
     "main.tf",
@@ -39,7 +39,7 @@ data "aws_iam_policy" "AWSLambdaBasicExecutionRole" {
 }
 
 resource "aws_lambda_function" "retriever_lambda" {
-  filename         = "./retriever/${var.environment}_retriever_lambda.zip"
+  filename         = "./lambda/retriever/${var.environment}_retriever_lambda.zip"
   function_name    = "${var.environment}_retriever_lambda"
   role             = aws_iam_role.iam_for_retriever_lambda.arn
   handler          = "app.handler"

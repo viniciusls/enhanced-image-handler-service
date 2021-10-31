@@ -1,7 +1,7 @@
 data "archive_file" "lambda_zip" {
   type        = "zip"
   source_dir  = path.module
-  output_path = "./thumbnailer/${var.environment}_thumbnailer_lambda.zip"
+  output_path = "./lambda/thumbnailer/${var.environment}_thumbnailer_lambda.zip"
   excludes = [
     "${var.environment}_thumbnailer_lambda.zip",
     "main.tf",
@@ -46,7 +46,7 @@ data "aws_iam_policy" "AWSLambdaSQSQueueExecutionRole" {
 }
 
 resource "aws_lambda_function" "thumbnailer_lambda" {
-  filename         = "./thumbnailer/${var.environment}_thumbnailer_lambda.zip"
+  filename         = "./lambda/thumbnailer/${var.environment}_thumbnailer_lambda.zip"
   function_name    = "${var.environment}_thumbnailer_lambda"
   role             = aws_iam_role.iam_for_thumbnailer_lambda.arn
   handler          = "app.handler"

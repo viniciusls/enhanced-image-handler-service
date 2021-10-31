@@ -1,11 +1,11 @@
 {
   "name": "enhanced-image-handler-service",
-  "version": "1.0.7",
+  "version": "1.8.0",
   "description": "Enhanced image handler service that generates thumbnails and evaluate image for metadata generation/analysis",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cd ./analyzer && yarn install; cd ../handler && yarn install; cd ../thumbnailer && SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm install --arch=x64 --platform=linux sharp"
+    "build": "yarn install; cd ./lambda/analyzer && yarn install; cd ../handler && yarn install; cd ../retriever && yarn install; cd ../thumbnailer && SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm install --arch=x64 --platform=linux sharp"
   },
   "repository": {
     "type": "git",
