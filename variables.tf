@@ -13,6 +13,14 @@ variable "s3_bucket_name" {
   default = "enhanced-image-handler-service-bucket"
 }
 
+variable "sns_topic_images_name" {
+  default = "enhanced-image-handler-service-images-topic"
+}
+
+variable "sns_topic_results_name" {
+  default = "enhanced-image-handler-service-results-topic"
+}
+
 variable "sqs_queue_analyzer_name" {
   default = "enhanced-image-handler-service-analyzer-queue"
 }

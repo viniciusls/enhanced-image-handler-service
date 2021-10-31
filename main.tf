@@ -15,16 +15,24 @@ provider "aws" {
   region = var.region
 }
 
-module "sns" {
+module "sns_images_topic" {
   source = "./sns"
 
+  topic_name  = "${var.environment}-${var.sns_topic_images_name}"
+  environment = var.environment
+}
+
+module "sns_results_topic" {
+  source = "./sns"
+
+  topic_name  = "${var.environment}-${var.sns_topic_results_name}"
   environment = var.environment
 }
 
 module "sqs_analyzer_queue" {
   source = "./sqs"
 
-  sns_images_topic_arn = module.sns.images_topic_arn
+  sns_images_topic_arn = module.sns_images_topic.topic_arn
   sqs_queue_name       = "${var.environment}-${var.sqs_queue_analyzer_name}"
   environment          = var.environment
 }
@@ -32,7 +40,7 @@ module "sqs_analyzer_queue" {
 module "sqs_thumbnailer_queue" {
   source = "./sqs"
 
-  sns_images_topic_arn = module.sns.images_topic_arn
+  sns_images_topic_arn = module.sns_images_topic.topic_arn
   sqs_queue_name       = "${var.environment}-${var.sqs_queue_thumbnailer_name}"
   environment          = var.environment
 }
@@ -57,7 +65,7 @@ module "analyzer_lambda" {
 
   environment                         = var.environment
   s3_file_read_policy_arn             = module.s3.file_read_policy_arn
-  sns_results_topic_iam_policy_arn    = module.sns.results_topic_iam_policy_arn
+  sns_results_topic_iam_policy_arn    = module.sns_results_topic.topic_iam_policy_arn
   sqs_analyzer_queue_arn              = module.sqs_analyzer_queue.queue_arn
   analyzer_clarifai_model_id          = var.analyzer_clarifai_model_id
   clarifai_api_key                    = var.clarifai_api_key
@@ -74,8 +82,8 @@ module "handler_lambda" {
 
   environment                     = var.environment
   s3_file_upload_bucket_arn       = module.s3.file_upload_bucket_arn
-  sns_images_topic_iam_policy_arn = module.sns.images_topic_iam_policy_arn
-  sns_images_topic_arn            = module.sns.images_topic_arn
+  sns_images_topic_arn            = module.sns_images_topic.topic_arn
+  sns_images_topic_iam_policy_arn = module.sns_images_topic.topic_iam_policy_arn
 }
 
 module "retriever_lambda" {
