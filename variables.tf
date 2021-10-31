@@ -13,6 +13,14 @@ variable "s3_bucket_name" {
   default = "enhanced-image-handler-service-bucket"
 }
 
+variable "sqs_queue_analyzer_name" {
+  default = "enhanced-image-handler-service-analyzer-queue"
+}
+
+variable "sqs_queue_thumbnailer_name" {
+  default = "enhanced-image-handler-service-thumbnailer-queue"
+}
+
 variable "clarifai_api_key" {
   description = "The API Key for Clarifai"
   type        = string

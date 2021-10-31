@@ -21,10 +21,19 @@ module "sns" {
   environment = var.environment
 }
 
-module "sqs" {
+module "sqs_analyzer_queue" {
   source = "./sqs"
 
   sns_images_topic_arn = module.sns.images_topic_arn
+  sqs_queue_name       = "${var.environment}-${var.sqs_queue_analyzer_name}"
+  environment          = var.environment
+}
+
+module "sqs_thumbnailer_queue" {
+  source = "./sqs"
+
+  sns_images_topic_arn = module.sns.images_topic_arn
+  sqs_queue_name       = "${var.environment}-${var.sqs_queue_thumbnailer_name}"
   environment          = var.environment
 }
 
@@ -49,7 +58,7 @@ module "analyzer_lambda" {
   environment                         = var.environment
   s3_file_read_policy_arn             = module.s3.file_read_policy_arn
   sns_results_topic_iam_policy_arn    = module.sns.results_topic_iam_policy_arn
-  sqs_analyzer_queue_arn              = module.sqs.analyzer_queue_arn
+  sqs_analyzer_queue_arn              = module.sqs_analyzer_queue.queue_arn
   analyzer_clarifai_model_id          = var.analyzer_clarifai_model_id
   clarifai_api_key                    = var.clarifai_api_key
   mongodb_user                        = var.mongodb_user
@@ -93,7 +102,7 @@ module "thumbnailer_lambda" {
   environment               = var.environment
   s3_file_read_policy_arn   = module.s3.file_read_policy_arn
   s3_file_upload_policy_arn = module.s3.file_upload_policy_arn
-  sqs_thumbnailer_queue_arn = module.sqs.thumbnailer_queue_arn
+  sqs_thumbnailer_queue_arn = module.sqs_thumbnailer_queue.queue_arn
 }
 
 module "s3-notifications" {
