@@ -20,10 +20,10 @@
     "delegates" "^1.0.0"
     "readable-stream" "^2.0.6"
 
-"aws-sdk@^2.1006.0":
-  "integrity" "sha512-lwXAy706+1HVQqMnHaahdeBZZbdu6TWrtTY0ydeG0qanwldTFNMLczwnETTZWYsqNAU+wjl1VzmFdMO4gePLNQ=="
-  "resolved" "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.1006.0.tgz"
-  "version" "2.1006.0"
+"aws-sdk@^2.1018.0":
+  "integrity" "sha512-XIZ7X8O//bkwuh7a7CkWt5+ldwFzP1bHpWCI33BdCaW7Q6WFKokvtS8CkHMxgsmqnaQ+YC0PpHzoTdAtXpqxQw=="
+  "resolved" "https://registry.npmjs.org/aws-sdk/-/aws-sdk-2.1018.0.tgz"
+  "version" "2.1018.0"
   dependencies:
     "buffer" "4.9.2"
     "events" "1.1.1"
@@ -258,10 +258,10 @@
   dependencies:
     "semver" "^5.4.1"
 
-"node-addon-api@^4.1.0":
-  "integrity" "sha512-Zz1o1BDX2VtduiAt6kgiUl8jX1Vm3NMboljFYKQJ6ee8AGfiTvM2mlZFI3xPbqjs80rCQgiVJI/DjQ/1QJ0HwA=="
-  "resolved" "https://registry.npmjs.org/node-addon-api/-/node-addon-api-4.1.0.tgz"
-  "version" "4.1.0"
+"node-addon-api@^4.2.0":
+  "integrity" "sha512-eazsqzwG2lskuzBqCGPi7Ac2UgOoMz8JVOXVhTvvPDYhthvNpefx8jWD8Np7Gv+2Sz0FlPWZk0nJV0z598Wn8Q=="
+  "resolved" "https://registry.npmjs.org/node-addon-api/-/node-addon-api-4.2.0.tgz"
+  "version" "4.2.0"
 
 "npmlog@^4.0.1":
   "integrity" "sha512-2uUqazuKlTaSI/dC8AzicUck7+IrEaOnN/e0jd3Xtt1KcGpwx30v50mL7oPyr/h9bL3E4aZccVwpwP+5W9Vjkg=="
@@ -400,14 +400,14 @@
   "resolved" "https://registry.npmjs.org/set-blocking/-/set-blocking-2.0.0.tgz"
   "version" "2.0.0"
 
-"sharp@^0.29.1":
-  "integrity" "sha512-DpgdAny9TuS+oWCQ7MRS8XyY9x6q1+yW3a5wNx0J3HrGuB/Jot/8WcT+lElHY9iJu2pwtegSGxqMaqFiMhs4rQ=="
-  "resolved" "https://registry.npmjs.org/sharp/-/sharp-0.29.1.tgz"
-  "version" "0.29.1"
+"sharp@^0.29.2":
+  "integrity" "sha512-XWRdiYLIJ3tDUejRyG24KERnJzMfIoyiJBntd2S6/uj3NEeNgRFRLgiBlvPxMa8aml14dKKD98yHinSNKp1xzQ=="
+  "resolved" "https://registry.npmjs.org/sharp/-/sharp-0.29.2.tgz"
+  "version" "0.29.2"
   dependencies:
     "color" "^4.0.1"
     "detect-libc" "^1.0.3"
-    "node-addon-api" "^4.1.0"
+    "node-addon-api" "^4.2.0"
     "prebuild-install" "^6.1.4"
     "semver" "^7.3.5"
     "simple-get" "^3.1.0"
