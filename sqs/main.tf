@@ -3,6 +3,16 @@ resource "aws_sqs_queue" "queue" {
   message_retention_seconds  = 86400
   visibility_timeout_seconds = 60
   receive_wait_time_seconds  = 20
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.deadletter_queue.arn
+    maxReceiveCount     = 2
+  })
+}
+
+resource "aws_sqs_queue" "deadletter_queue" {
+  name                       = "${var.sqs_queue_name}_dlq"
+  message_retention_seconds  = 86400
+  visibility_timeout_seconds = 60
 }
 
 resource "aws_sns_topic_subscription" "sns_topic_subscription" {
