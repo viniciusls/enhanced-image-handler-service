@@ -6,8 +6,7 @@ data "archive_file" "lambda_zip" {
     "${var.environment}_thumbnailer_lambda.zip",
     "main.tf",
     "outputs.tf",
-    "variables.tf",
-    "yarn.lock"
+    "variables.tf"
   ]
 }
 
@@ -53,9 +52,10 @@ module "thumbnailer_lambda" {
   iam_role_arn     = aws_iam_role.iam_for_thumbnailer_lambda.arn
   handler          = "app.handler"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
-  runtime          = "nodejs14.x"
-  timeout          = 60
-  memory_size      = 1024
+  runtime          = "python3.8"
+  timeout          = 3
+  memory_size      = 120
+  layers           = ["arn:aws:lambda:sa-east-1:770693421928:layer:Klayers-python38-Pillow:14"]
 }
 
 resource "aws_lambda_event_source_mapping" "event_source_mapping" {
