@@ -54,7 +54,7 @@ module "thumbnailer_lambda" {
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
   runtime          = "python3.8"
   timeout          = 3
-  memory_size      = 120
+  memory_size      = 128
   layers           = ["arn:aws:lambda:sa-east-1:770693421928:layer:Klayers-python38-Pillow:14"]
 }
 
