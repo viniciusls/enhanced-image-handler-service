@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "yarn install; cd ./lambda/analyzer && yarn install; cd ../handler && yarn install; cd ../retriever && yarn install; cd ../thumbnailer && SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm install --arch=x64 --platform=linux sharp"
+    "build": "yarn install; cd ./lambda/analyzer && yarn install; cd ../handler && yarn install; cd ../retriever && yarn install"
   },
   "repository": {
     "type": "git",

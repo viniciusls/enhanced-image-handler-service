@@ -13,3 +13,7 @@ variable "memory_size" {
 variable "environment_variables" {
   default = {}
 }
+
+variable "layers" {
+  default = []
+}

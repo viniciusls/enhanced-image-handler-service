@@ -7,6 +7,7 @@ resource "aws_lambda_function" "lambda" {
   runtime          = var.runtime
   timeout          = var.timeout
   memory_size      = var.memory_size
+  layers           = var.layers
 
   dynamic "environment" {
     for_each = length(var.environment_variables) == 0 ? [] : [var.environment_variables]
