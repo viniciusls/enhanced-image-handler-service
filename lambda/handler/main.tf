@@ -56,8 +56,8 @@ module "handler_lambda" {
   handler          = "app.handler"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
   runtime          = "nodejs14.x"
-  timeout          = 60
-  memory_size      = 1024
+  timeout          = 3
+  memory_size      = 128
   environment_variables = {
     SNS_IMAGES_TOPIC_ARN = var.sns_images_topic_arn
   }

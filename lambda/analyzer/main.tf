@@ -54,8 +54,8 @@ module "analyzer_lambda" {
   handler          = "app.handler"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
   runtime          = "nodejs14.x"
-  timeout          = 60
-  memory_size      = 1024
+  timeout          = 3
+  memory_size      = 128
   environment_variables = {
     ANALYZER_CLARIFAI_MODEL_ID          = var.analyzer_clarifai_model_id
     CLARIFAI_API_KEY                    = var.clarifai_api_key
