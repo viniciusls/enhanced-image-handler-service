@@ -47,8 +47,8 @@ module "retriever_lambda" {
   handler          = "app.handler"
   source_code_hash = data.archive_file.lambda_zip.output_base64sha256
   runtime          = "nodejs14.x"
-  timeout          = 60
-  memory_size      = 1024
+  timeout          = 3
+  memory_size      = 128
   environment_variables = {
     ENVIRONMENT                         = var.environment
     MONGODB_USER                        = var.mongodb_user
