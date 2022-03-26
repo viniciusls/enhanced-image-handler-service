@@ -25,7 +25,7 @@
   "homepage": "https://github.com/viniciusls/enhanced-image-handler-service#readme",
   "dependencies": {
     "aws-sdk": "^2.1018.0",
-    "ioredis": "^4.28.0",
+    "ioredis": "^5.0.0",
     "mongodb": "^4.1.3"
   }
 }
